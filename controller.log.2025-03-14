@@ -1,0 +1,54 @@
+2025-03-14 23:31:44 | ERROR | stderr | Traceback (most recent call last):
+2025-03-14 23:31:44 | ERROR | stderr |   File "/home/zj/课件大模型与Agent开发实战课件/fufan-chat-api/startup.py", line 24, in <module>
+2025-03-14 23:31:44 | ERROR | stderr |     from server.api_router import create_app
+2025-03-14 23:31:44 | ERROR | stderr |   File "/home/zj/课件大模型与Agent开发实战课件/fufan-chat-api/server/api_router.py", line 38, in <module>
+2025-03-14 23:31:44 | ERROR | stderr |     from server.chat.knowledge_base_chat import knowledge_base_chat
+2025-03-14 23:31:44 | ERROR | stderr |   File "/home/zj/课件大模型与Agent开发实战课件/fufan-chat-api/server/chat/knowledge_base_chat.py", line 27, in <module>
+2025-03-14 23:31:44 | ERROR | stderr |     from server.reranker.reranker import LangchainReranker
+2025-03-14 23:31:44 | ERROR | stderr |   File "/home/zj/课件大模型与Agent开发实战课件/fufan-chat-api/server/reranker/reranker.py", line 6, in <module>
+2025-03-14 23:31:44 | ERROR | stderr |     from sentence_transformers import CrossEncoder
+2025-03-14 23:31:44 | ERROR | stderr |   File "/home/zj/python-venvs/langchain/lib/python3.10/site-packages/sentence_transformers/__init__.py", line 3, in <module>
+2025-03-14 23:31:44 | ERROR | stderr |     from .datasets import SentencesDataset, ParallelSentencesDataset
+2025-03-14 23:31:44 | ERROR | stderr |   File "/home/zj/python-venvs/langchain/lib/python3.10/site-packages/sentence_transformers/datasets/__init__.py", line 3, in <module>
+2025-03-14 23:31:44 | ERROR | stderr |     from .ParallelSentencesDataset import ParallelSentencesDataset
+2025-03-14 23:31:44 | ERROR | stderr |   File "/home/zj/python-venvs/langchain/lib/python3.10/site-packages/sentence_transformers/datasets/ParallelSentencesDataset.py", line 4, in <module>
+2025-03-14 23:31:44 | ERROR | stderr |     from .. import SentenceTransformer
+2025-03-14 23:31:44 | ERROR | stderr |   File "/home/zj/python-venvs/langchain/lib/python3.10/site-packages/sentence_transformers/SentenceTransformer.py", line 12, in <module>
+2025-03-14 23:31:44 | ERROR | stderr |     from huggingface_hub import HfApi, HfFolder, Repository, hf_hub_url, cached_download
+2025-03-14 23:31:44 | ERROR | stderr | ImportError: cannot import name 'cached_download' from 'huggingface_hub' (/home/zj/python-venvs/langchain/lib/python3.10/site-packages/huggingface_hub/__init__.py)
+2025-03-15 00:15:35 | ERROR | stderr | Traceback (most recent call last):
+2025-03-15 00:15:35 | ERROR | stderr |   File "/home/zj/课件大模型与Agent开发实战课件/fufan-chat-api/startup.py", line 24, in <module>
+2025-03-15 00:15:35 | ERROR | stderr |     from server.api_router import create_app
+2025-03-15 00:15:35 | ERROR | stderr |   File "/home/zj/课件大模型与Agent开发实战课件/fufan-chat-api/server/api_router.py", line 38, in <module>
+2025-03-15 00:15:35 | ERROR | stderr |     from server.chat.knowledge_base_chat import knowledge_base_chat
+2025-03-15 00:15:35 | ERROR | stderr |   File "/home/zj/课件大模型与Agent开发实战课件/fufan-chat-api/server/chat/knowledge_base_chat.py", line 27, in <module>
+2025-03-15 00:15:35 | ERROR | stderr |     from server.reranker.reranker import LangchainReranker
+2025-03-15 00:15:35 | ERROR | stderr |   File "/home/zj/课件大模型与Agent开发实战课件/fufan-chat-api/server/reranker/reranker.py", line 6, in <module>
+2025-03-15 00:15:35 | ERROR | stderr |     from sentence_transformers import CrossEncoder
+2025-03-15 00:15:35 | ERROR | stderr |   File "/home/zj/python-venvs/langchain/lib/python3.10/site-packages/sentence_transformers/__init__.py", line 3, in <module>
+2025-03-15 00:15:35 | ERROR | stderr |     from .datasets import SentencesDataset, ParallelSentencesDataset
+2025-03-15 00:15:35 | ERROR | stderr |   File "/home/zj/python-venvs/langchain/lib/python3.10/site-packages/sentence_transformers/datasets/__init__.py", line 3, in <module>
+2025-03-15 00:15:35 | ERROR | stderr |     from .ParallelSentencesDataset import ParallelSentencesDataset
+2025-03-15 00:15:35 | ERROR | stderr |   File "/home/zj/python-venvs/langchain/lib/python3.10/site-packages/sentence_transformers/datasets/ParallelSentencesDataset.py", line 4, in <module>
+2025-03-15 00:15:35 | ERROR | stderr |     from .. import SentenceTransformer
+2025-03-15 00:15:35 | ERROR | stderr |   File "/home/zj/python-venvs/langchain/lib/python3.10/site-packages/sentence_transformers/SentenceTransformer.py", line 12, in <module>
+2025-03-15 00:15:35 | ERROR | stderr |     from huggingface_hub import HfApi, HfFolder, Repository, hf_hub_url, cached_download
+2025-03-15 00:15:35 | ERROR | stderr | ImportError: cannot import name 'cached_download' from 'huggingface_hub' (/home/zj/python-venvs/langchain/lib/python3.10/site-packages/huggingface_hub/__init__.py)
+2025-03-15 00:16:02 | ERROR | stderr | Traceback (most recent call last):
+2025-03-15 00:16:02 | ERROR | stderr |   File "/home/zj/课件大模型与Agent开发实战课件/fufan-chat-api/startup.py", line 24, in <module>
+2025-03-15 00:16:02 | ERROR | stderr |     from server.api_router import create_app
+2025-03-15 00:16:02 | ERROR | stderr |   File "/home/zj/课件大模型与Agent开发实战课件/fufan-chat-api/server/api_router.py", line 38, in <module>
+2025-03-15 00:16:02 | ERROR | stderr |     from server.chat.knowledge_base_chat import knowledge_base_chat
+2025-03-15 00:16:02 | ERROR | stderr |   File "/home/zj/课件大模型与Agent开发实战课件/fufan-chat-api/server/chat/knowledge_base_chat.py", line 27, in <module>
+2025-03-15 00:16:02 | ERROR | stderr |     from server.reranker.reranker import LangchainReranker
+2025-03-15 00:16:02 | ERROR | stderr |   File "/home/zj/课件大模型与Agent开发实战课件/fufan-chat-api/server/reranker/reranker.py", line 6, in <module>
+2025-03-15 00:16:02 | ERROR | stderr |     from sentence_transformers import CrossEncoder
+2025-03-15 00:16:02 | ERROR | stderr |   File "/home/zj/python-venvs/langchain/lib/python3.10/site-packages/sentence_transformers/__init__.py", line 3, in <module>
+2025-03-15 00:16:02 | ERROR | stderr |     from .datasets import SentencesDataset, ParallelSentencesDataset
+2025-03-15 00:16:02 | ERROR | stderr |   File "/home/zj/python-venvs/langchain/lib/python3.10/site-packages/sentence_transformers/datasets/__init__.py", line 3, in <module>
+2025-03-15 00:16:02 | ERROR | stderr |     from .ParallelSentencesDataset import ParallelSentencesDataset
+2025-03-15 00:16:02 | ERROR | stderr |   File "/home/zj/python-venvs/langchain/lib/python3.10/site-packages/sentence_transformers/datasets/ParallelSentencesDataset.py", line 4, in <module>
+2025-03-15 00:16:02 | ERROR | stderr |     from .. import SentenceTransformer
+2025-03-15 00:16:02 | ERROR | stderr |   File "/home/zj/python-venvs/langchain/lib/python3.10/site-packages/sentence_transformers/SentenceTransformer.py", line 12, in <module>
+2025-03-15 00:16:02 | ERROR | stderr |     from huggingface_hub import HfApi, HfFolder, Repository, hf_hub_url, cached_download
+2025-03-15 00:16:02 | ERROR | stderr | ImportError: cannot import name 'cached_download' from 'huggingface_hub' (/home/zj/python-venvs/langchain/lib/python3.10/site-packages/huggingface_hub/__init__.py)

@@ -1,0 +1,2067 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: https://lilianweng.github.io/posts/2023-06-23-agent/
+Subject: LLM Powered Autonomous Agents | Lil'Log
+Date: Thu, 27 Mar 2025 21:59:11 +0800
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--m7LkKFW9WTRn9nVBdmDNXAp8IfVUNolvnRaWX5GPMt----"
+
+
+------MultipartBoundary--m7LkKFW9WTRn9nVBdmDNXAp8IfVUNolvnRaWX5GPMt----
+Content-Type: text/html
+Content-ID: <frame-F553E50B129FC7A5A26F1C6FCC841223@mhtml.blink>
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://lilianweng.github.io/posts/2023-06-23-agent/
+
+<!DOCTYPE html><html lang=3D"en" dir=3D"auto"><head><meta http-equiv=3D"Con=
+tent-Type" content=3D"text/html; charset=3DUTF-8">
+<meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge">
+<meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D1,=
+ shrink-to-fit=3Dno">
+<meta name=3D"robots" content=3D"index, follow">
+<title>LLM Powered Autonomous Agents | Lil'Log</title>
+<meta name=3D"keywords" content=3D"nlp, language-model, agent, steerability=
+, prompting">
+<meta name=3D"description" content=3D"Building agents with LLM (large langu=
+age model) as its core controller is a cool concept. Several proof-of-conce=
+pts demos, such as AutoGPT, GPT-Engineer and BabyAGI, serve as inspiring ex=
+amples. The potentiality of LLM extends beyond generating well-written copi=
+es, stories, essays and programs; it can be framed as a powerful general pr=
+oblem solver.
+Agent System Overview
+In a LLM-powered autonomous agent system, LLM functions as the agent=E2=80=
+=99s brain, complemented by several key components:
+
+Planning
+
+Subgoal and decomposition: The agent breaks down large tasks into smaller, =
+manageable subgoals, enabling efficient handling of complex tasks.
+Reflection and refinement: The agent can do self-criticism and self-reflect=
+ion over past actions, learn from mistakes and refine them for future steps=
+, thereby improving the quality of final results.
+
+
+Memory
+
+Short-term memory: I would consider all the in-context learning (See Prompt=
+ Engineering) as utilizing short-term memory of the model to learn.
+Long-term memory: This provides the agent with the capability to retain and=
+ recall (infinite) information over extended periods, often by leveraging a=
+n external vector store and fast retrieval.
+
+
+Tool use
+
+The agent learns to call external APIs for extra information that is missin=
+g from the model weights (often hard to change after pre-training), includi=
+ng current information, code execution capability, access to proprietary in=
+formation sources and more.
+
+
+
+
+Fig. 1. Overview of a LLM-powered autonomous agent system.
+Component One: Planning
+A complicated task usually involves many steps. An agent needs to know what=
+ they are and plan ahead.">
+<meta name=3D"author" content=3D"Lilian Weng">
+<link rel=3D"canonical" href=3D"https://lilianweng.github.io/posts/2023-06-=
+23-agent/">
+<link crossorigin=3D"anonymous" href=3D"https://lilianweng.github.io/assets=
+/css/stylesheet.min.67a6fb6e33089cb29e856bcc95d7aa39f70049a42b123105531265a=
+0d9f1258b.css" rel=3D"preload stylesheet" as=3D"style">
+
+<link rel=3D"icon" href=3D"https://lilianweng.github.io/favicon_wine.ico">
+<link rel=3D"icon" type=3D"image/png" sizes=3D"16x16" href=3D"https://lilia=
+nweng.github.io/favicon-16x16.png">
+<link rel=3D"icon" type=3D"image/png" sizes=3D"32x32" href=3D"https://lilia=
+nweng.github.io/favicon-32x32.png">
+<link rel=3D"apple-touch-icon" href=3D"https://lilianweng.github.io/apple-t=
+ouch-icon.png">
+<link rel=3D"mask-icon" href=3D"https://lilianweng.github.io/safari-pinned-=
+tab.svg">
+<meta name=3D"theme-color" content=3D"#2e2e33">
+<meta name=3D"msapplication-TileColor" content=3D"#2e2e33">
+<link rel=3D"alternate" hreflang=3D"en" href=3D"https://lilianweng.github.i=
+o/posts/2023-06-23-agent/">
+
+     =20
+      <meta property=3D"og:title" content=3D"LLM Powered Autonomous Agents"=
+>
+<meta property=3D"og:description" content=3D"Building agents with LLM (larg=
+e language model) as its core controller is a cool concept. Several proof-o=
+f-concepts demos, such as AutoGPT, GPT-Engineer and BabyAGI, serve as inspi=
+ring examples. The potentiality of LLM extends beyond generating well-writt=
+en copies, stories, essays and programs; it can be framed as a powerful gen=
+eral problem solver.
+Agent System Overview
+In a LLM-powered autonomous agent system, LLM functions as the agent=E2=80=
+=99s brain, complemented by several key components:
+
+Planning
+
+Subgoal and decomposition: The agent breaks down large tasks into smaller, =
+manageable subgoals, enabling efficient handling of complex tasks.
+Reflection and refinement: The agent can do self-criticism and self-reflect=
+ion over past actions, learn from mistakes and refine them for future steps=
+, thereby improving the quality of final results.
+
+
+Memory
+
+Short-term memory: I would consider all the in-context learning (See Prompt=
+ Engineering) as utilizing short-term memory of the model to learn.
+Long-term memory: This provides the agent with the capability to retain and=
+ recall (infinite) information over extended periods, often by leveraging a=
+n external vector store and fast retrieval.
+
+
+Tool use
+
+The agent learns to call external APIs for extra information that is missin=
+g from the model weights (often hard to change after pre-training), includi=
+ng current information, code execution capability, access to proprietary in=
+formation sources and more.
+
+
+
+
+Fig. 1. Overview of a LLM-powered autonomous agent system.
+Component One: Planning
+A complicated task usually involves many steps. An agent needs to know what=
+ they are and plan ahead.">
+<meta property=3D"og:type" content=3D"article">
+<meta property=3D"og:url" content=3D"https://lilianweng.github.io/posts/202=
+3-06-23-agent/"><meta property=3D"article:section" content=3D"posts">
+<meta property=3D"article:published_time" content=3D"2023-06-23T00:00:00+00=
+:00">
+<meta property=3D"article:modified_time" content=3D"2023-06-23T00:00:00+00:=
+00">
+
+<meta name=3D"twitter:card" content=3D"summary">
+<meta name=3D"twitter:title" content=3D"LLM Powered Autonomous Agents">
+<meta name=3D"twitter:description" content=3D"Building agents with LLM (lar=
+ge language model) as its core controller is a cool concept. Several proof-=
+of-concepts demos, such as AutoGPT, GPT-Engineer and BabyAGI, serve as insp=
+iring examples. The potentiality of LLM extends beyond generating well-writ=
+ten copies, stories, essays and programs; it can be framed as a powerful ge=
+neral problem solver.
+Agent System Overview
+In a LLM-powered autonomous agent system, LLM functions as the agent=E2=80=
+=99s brain, complemented by several key components:
+
+Planning
+
+Subgoal and decomposition: The agent breaks down large tasks into smaller, =
+manageable subgoals, enabling efficient handling of complex tasks.
+Reflection and refinement: The agent can do self-criticism and self-reflect=
+ion over past actions, learn from mistakes and refine them for future steps=
+, thereby improving the quality of final results.
+
+
+Memory
+
+Short-term memory: I would consider all the in-context learning (See Prompt=
+ Engineering) as utilizing short-term memory of the model to learn.
+Long-term memory: This provides the agent with the capability to retain and=
+ recall (infinite) information over extended periods, often by leveraging a=
+n external vector store and fast retrieval.
+
+
+Tool use
+
+The agent learns to call external APIs for extra information that is missin=
+g from the model weights (often hard to change after pre-training), includi=
+ng current information, code execution capability, access to proprietary in=
+formation sources and more.
+
+
+
+
+Fig. 1. Overview of a LLM-powered autonomous agent system.
+Component One: Planning
+A complicated task usually involves many steps. An agent needs to know what=
+ they are and plan ahead.">
+
+
+
+
+</head>
+
+<body class=3D"" id=3D"top">
+
+
+
+
+
+
+
+<header class=3D"header">
+    <nav class=3D"nav">
+        <div class=3D"logo">
+            <a href=3D"https://lilianweng.github.io/" accesskey=3D"h" title=
+=3D"Lil'Log (Alt + H)">Lil'Log</a>
+            <span class=3D"logo-switches">
+                <button id=3D"theme-toggle" accesskey=3D"t" title=3D"(Alt +=
+ T)">
+                    <svg id=3D"moon" xmlns=3D"http://www.w3.org/2000/svg" w=
+idth=3D"24" height=3D"24" viewBox=3D"0 0 24 24" fill=3D"none" stroke=3D"cur=
+rentColor" stroke-width=3D"2" stroke-linecap=3D"round" stroke-linejoin=3D"r=
+ound">
+                        <path d=3D"M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21=
+ 12.79z"></path>
+                    </svg>
+                    <svg id=3D"sun" xmlns=3D"http://www.w3.org/2000/svg" wi=
+dth=3D"24" height=3D"24" viewBox=3D"0 0 24 24" fill=3D"none" stroke=3D"curr=
+entColor" stroke-width=3D"2" stroke-linecap=3D"round" stroke-linejoin=3D"ro=
+und">
+                        <circle cx=3D"12" cy=3D"12" r=3D"5"></circle>
+                        <line x1=3D"12" y1=3D"1" x2=3D"12" y2=3D"3"></line>
+                        <line x1=3D"12" y1=3D"21" x2=3D"12" y2=3D"23"></lin=
+e>
+                        <line x1=3D"4.22" y1=3D"4.22" x2=3D"5.64" y2=3D"5.6=
+4"></line>
+                        <line x1=3D"18.36" y1=3D"18.36" x2=3D"19.78" y2=3D"=
+19.78"></line>
+                        <line x1=3D"1" y1=3D"12" x2=3D"3" y2=3D"12"></line>
+                        <line x1=3D"21" y1=3D"12" x2=3D"23" y2=3D"12"></lin=
+e>
+                        <line x1=3D"4.22" y1=3D"19.78" x2=3D"5.64" y2=3D"18=
+.36"></line>
+                        <line x1=3D"18.36" y1=3D"5.64" x2=3D"19.78" y2=3D"4=
+.22"></line>
+                    </svg>
+                </button>
+                <ul class=3D"lang-switch"><li>|</li>
+                </ul>
+            </span>
+        </div>
+        <ul id=3D"menu">
+            <li>
+                <a href=3D"https://lilianweng.github.io/" title=3D"Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href=3D"https://lilianweng.github.io/archives" title=3D"=
+Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+            <li>
+                <a href=3D"https://lilianweng.github.io/search/" title=3D"S=
+earch (Alt + /)" accesskey=3D"/">
+                    <span>Search</span>
+                </a>
+            </li>
+            <li>
+                <a href=3D"https://lilianweng.github.io/tags/" title=3D"Tag=
+s">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href=3D"https://lilianweng.github.io/faq" title=3D"FAQ">
+                    <span>FAQ</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class=3D"main">
+
+<article class=3D"post-single">
+  <header class=3D"post-header">
+   =20
+    <h1 class=3D"post-title">
+      LLM Powered Autonomous Agents
+    </h1>
+    <div class=3D"post-meta">Date: June 23, 2023  |  Estimated Reading Time=
+: 31 min  |  Author: Lilian Weng
+
+</div>
+  </header> <div class=3D"toc">
+    <details>
+        <summary accesskey=3D"c" title=3D"(Alt + C)">
+            <span class=3D"details">Table of Contents</span>
+        </summary>
+
+        <div class=3D"inner"><ul>
+                <li>
+                    <a href=3D"https://lilianweng.github.io/posts/2023-06-2=
+3-agent/#agent-system-overview" aria-label=3D"Agent System Overview">Agent =
+System Overview</a></li>
+                <li>
+                    <a href=3D"https://lilianweng.github.io/posts/2023-06-2=
+3-agent/#component-one-planning" aria-label=3D"Component One: Planning">Com=
+ponent One: Planning</a><ul>
+                       =20
+                <li>
+                    <a href=3D"https://lilianweng.github.io/posts/2023-06-2=
+3-agent/#task-decomposition" aria-label=3D"Task Decomposition">Task Decompo=
+sition</a></li>
+                <li>
+                    <a href=3D"https://lilianweng.github.io/posts/2023-06-2=
+3-agent/#self-reflection" aria-label=3D"Self-Reflection">Self-Reflection</a=
+></li></ul>
+                </li>
+                <li>
+                    <a href=3D"https://lilianweng.github.io/posts/2023-06-2=
+3-agent/#component-two-memory" aria-label=3D"Component Two: Memory">Compone=
+nt Two: Memory</a><ul>
+                       =20
+                <li>
+                    <a href=3D"https://lilianweng.github.io/posts/2023-06-2=
+3-agent/#types-of-memory" aria-label=3D"Types of Memory">Types of Memory</a=
+></li>
+                <li>
+                    <a href=3D"https://lilianweng.github.io/posts/2023-06-2=
+3-agent/#maximum-inner-product-search-mips" aria-label=3D"Maximum Inner Pro=
+duct Search (MIPS)">Maximum Inner Product Search (MIPS)</a></li></ul>
+                </li>
+                <li>
+                    <a href=3D"https://lilianweng.github.io/posts/2023-06-2=
+3-agent/#component-three-tool-use" aria-label=3D"Component Three: Tool Use"=
+>Component Three: Tool Use</a></li>
+                <li>
+                    <a href=3D"https://lilianweng.github.io/posts/2023-06-2=
+3-agent/#case-studies" aria-label=3D"Case Studies">Case Studies</a><ul>
+                       =20
+                <li>
+                    <a href=3D"https://lilianweng.github.io/posts/2023-06-2=
+3-agent/#scientific-discovery-agent" aria-label=3D"Scientific Discovery Age=
+nt">Scientific Discovery Agent</a></li>
+                <li>
+                    <a href=3D"https://lilianweng.github.io/posts/2023-06-2=
+3-agent/#generative-agents-simulation" aria-label=3D"Generative Agents Simu=
+lation">Generative Agents Simulation</a></li>
+                <li>
+                    <a href=3D"https://lilianweng.github.io/posts/2023-06-2=
+3-agent/#proof-of-concept-examples" aria-label=3D"Proof-of-Concept Examples=
+">Proof-of-Concept Examples</a></li></ul>
+                </li>
+                <li>
+                    <a href=3D"https://lilianweng.github.io/posts/2023-06-2=
+3-agent/#challenges" aria-label=3D"Challenges">Challenges</a></li>
+                <li>
+                    <a href=3D"https://lilianweng.github.io/posts/2023-06-2=
+3-agent/#citation" aria-label=3D"Citation">Citation</a></li>
+                <li>
+                    <a href=3D"https://lilianweng.github.io/posts/2023-06-2=
+3-agent/#references" aria-label=3D"References">References</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class=3D"post-content"><p>Building agents with LLM (large language m=
+odel) as its core controller is a cool concept. Several proof-of-concepts d=
+emos, such as <a href=3D"https://github.com/Significant-Gravitas/Auto-GPT">=
+AutoGPT</a>, <a href=3D"https://github.com/AntonOsika/gpt-engineer">GPT-Eng=
+ineer</a> and <a href=3D"https://github.com/yoheinakajima/babyagi">BabyAGI<=
+/a>, serve as inspiring examples. The potentiality of LLM extends beyond ge=
+nerating well-written copies, stories, essays and programs; it can be frame=
+d as a powerful general problem solver.</p>
+<h1 id=3D"agent-system-overview">Agent System Overview</h1>
+<p>In a LLM-powered autonomous agent system, LLM functions as the agent=E2=
+=80=99s brain, complemented by several key components:</p>
+<ul>
+<li><strong>Planning</strong>
+<ul>
+<li>Subgoal and decomposition: The agent breaks down large tasks into small=
+er, manageable subgoals, enabling efficient handling of complex tasks.</li>
+<li>Reflection and refinement: The agent can do self-criticism and self-ref=
+lection over past actions, learn from mistakes and refine them for future s=
+teps, thereby improving the quality of final results.</li>
+</ul>
+</li>
+<li><strong>Memory</strong>
+<ul>
+<li>Short-term memory: I would consider all the in-context learning (See <a=
+ href=3D"https://lilianweng.github.io/posts/2023-03-15-prompt-engineering/"=
+>Prompt Engineering</a>) as utilizing short-term memory of the model to lea=
+rn.</li>
+<li>Long-term memory: This provides the agent with the capability to retain=
+ and recall (infinite) information over extended periods, often by leveragi=
+ng an external vector store and fast retrieval.</li>
+</ul>
+</li>
+<li><strong>Tool use</strong>
+<ul>
+<li>The agent learns to call external APIs for extra information that is mi=
+ssing from the model weights (often hard to change after pre-training), inc=
+luding current information, code execution capability, access to proprietar=
+y information sources and more.</li>
+</ul>
+</li>
+</ul>
+<img src=3D"https://lilianweng.github.io/posts/2023-06-23-agent/agent-overv=
+iew.png" style=3D"width: 100%;" class=3D"center">
+<figcaption>Fig. 1. Overview of a LLM-powered autonomous agent system.</fig=
+caption>
+<h1 id=3D"component-one-planning">Component One: Planning</h1>
+<p>A complicated task usually involves many steps. An agent needs to know w=
+hat they are and plan ahead.</p>
+<h2 id=3D"task-decomposition">Task Decomposition</h2>
+<p><a href=3D"https://lilianweng.github.io/posts/2023-03-15-prompt-engineer=
+ing/#chain-of-thought-cot"><strong>Chain of thought</strong></a> (CoT; <a h=
+ref=3D"https://arxiv.org/abs/2201.11903">Wei et al. 2022</a>) has become a =
+standard prompting technique for enhancing model performance on complex tas=
+ks. The model is instructed to =E2=80=9Cthink step by step=E2=80=9D to util=
+ize more test-time computation to decompose hard tasks into smaller and sim=
+pler steps. CoT transforms big tasks into multiple manageable tasks and she=
+d lights into an interpretation of the model=E2=80=99s thinking process.</p=
+>
+<p><strong>Tree of Thoughts</strong> (<a href=3D"https://arxiv.org/abs/2305=
+.10601">Yao et al. 2023</a>) extends CoT by exploring multiple reasoning po=
+ssibilities at each step. It first decomposes the problem into multiple tho=
+ught steps and generates multiple thoughts per step, creating a tree struct=
+ure. The search process can be BFS (breadth-first search) or DFS (depth-fir=
+st search) with each state evaluated by a classifier (via a prompt) or majo=
+rity vote.</p>
+<p>Task decomposition can be done (1) by LLM with simple prompting like <co=
+de>"Steps for XYZ.\n1."</code>, <code>"What are the subgoals for achieving =
+XYZ?"</code>, (2) by using task-specific instructions; e.g. <code>"Write a =
+story outline."</code> for writing a novel, or (3) with human inputs.</p>
+<p>Another quite distinct approach, <strong>LLM+P</strong> (<a href=3D"http=
+s://arxiv.org/abs/2304.11477">Liu et al. 2023</a>), involves relying on an =
+external classical planner to do long-horizon planning. This approach utili=
+zes the Planning Domain Definition Language (PDDL) as an intermediate inter=
+face to describe the planning problem. In this process, LLM (1) translates =
+the problem into =E2=80=9CProblem PDDL=E2=80=9D, then (2) requests a classi=
+cal planner to generate a PDDL plan based on an existing =E2=80=9CDomain PD=
+DL=E2=80=9D, and finally (3) translates the PDDL plan back into natural lan=
+guage. Essentially, the planning step is outsourced to an external tool, as=
+suming the availability of domain-specific PDDL and a suitable planner whic=
+h is common in certain robotic setups but not in many other domains.</p>
+<h2 id=3D"self-reflection">Self-Reflection</h2>
+<p>Self-reflection is a vital aspect that allows autonomous agents to impro=
+ve iteratively by refining past action decisions and correcting previous mi=
+stakes. It plays a crucial role in real-world tasks where trial and error a=
+re inevitable.</p>
+<p><a name=3D"react"></a><strong>ReAct</strong> (<a href=3D"https://arxiv.o=
+rg/abs/2210.03629">Yao et al. 2023</a>) integrates reasoning and acting wit=
+hin LLM by extending the action space to be a combination of task-specific =
+discrete actions and the language space. The former enables LLM to interact=
+ with the environment (e.g. use Wikipedia search API), while the latter pro=
+mpting LLM to generate reasoning traces in natural language.</p>
+<p>The ReAct prompt template incorporates explicit steps for LLM to think, =
+roughly formatted as:</p>
+<pre tabindex=3D"0"><code>Thought: ...
+Action: ...
+Observation: ...
+... (Repeated many times)
+</code><button class=3D"copy-code">copy</button></pre><img src=3D"https://l=
+ilianweng.github.io/posts/2023-06-23-agent/react.png" style=3D"width: 100%;=
+" class=3D"center">
+<figcaption>Fig. 2.  Examples of reasoning trajectories for knowledge-inten=
+sive tasks (e.g. HotpotQA, FEVER) and decision-making tasks (e.g. AlfWorld =
+Env, WebShop). (Image source: <a href=3D"https://arxiv.org/abs/2210.03629" =
+target=3D"_blank">Yao et al. 2023</a>).</figcaption>
+<p>In both experiments on knowledge-intensive tasks and decision-making tas=
+ks, <code>ReAct</code> works better than the <code>Act</code>-only baseline=
+ where <code>Thought: =E2=80=A6</code> step is removed.</p>
+<p><strong>Reflexion</strong> (<a href=3D"https://arxiv.org/abs/2303.11366"=
+>Shinn &amp; Labash 2023</a>) is a framework to equip agents with dynamic m=
+emory and self-reflection capabilities to improve reasoning skills. Reflexi=
+on has a standard RL setup, in which the reward model provides a simple bin=
+ary reward and the action space follows the setup in ReAct where the task-s=
+pecific action space is augmented with language to enable complex reasoning=
+ steps. After each action $a_t$, the agent computes a heuristic $h_t$ and o=
+ptionally may <em>decide to reset</em> the environment to start a new trial=
+ depending on the self-reflection results.</p>
+<img src=3D"https://lilianweng.github.io/posts/2023-06-23-agent/reflexion.p=
+ng" style=3D"width: 80%;" class=3D"center">
+<figcaption>Fig. 3. Illustration of the Reflexion framework. (Image source:=
+ <a href=3D"https://arxiv.org/abs/2303.11366" target=3D"_blank">Shinn &amp;=
+ Labash, 2023</a>)</figcaption>
+<p>The heuristic function determines when the trajectory is inefficient or =
+contains hallucination and should be stopped. Inefficient planning refers t=
+o trajectories that take too long without success. Hallucination is defined=
+ as encountering a sequence of consecutive identical actions that lead to t=
+he same observation in the environment.</p>
+<p>Self-reflection is created by showing two-shot examples to LLM and each =
+example is a pair of (failed trajectory, ideal reflection for guiding futur=
+e changes in the plan). Then reflections are added into the agent=E2=80=99s=
+ working memory, up to three, to be used as context for querying LLM.</p>
+<img src=3D"https://lilianweng.github.io/posts/2023-06-23-agent/reflexion-e=
+xp.png" style=3D"width: 100%;" class=3D"center">
+<figcaption>Fig. 4. Experiments on AlfWorld Env and HotpotQA. Hallucination=
+ is a more common failure than inefficient planning in AlfWorld. (Image sou=
+rce: <a href=3D"https://arxiv.org/abs/2303.11366" target=3D"_blank">Shinn &=
+amp; Labash, 2023</a>)</figcaption>
+<p><strong>Chain of Hindsight</strong> (CoH; <a href=3D"https://arxiv.org/a=
+bs/2302.02676">Liu et al. 2023</a>) encourages the model to improve on its =
+own outputs by explicitly presenting it with a sequence of past outputs, ea=
+ch annotated with feedback. Human feedback data is a collection of $D_h =3D=
+ \{(x, y_i , r_i , z_i)\}_{i=3D1}^n$, where $x$ is the prompt, each $y_i$ i=
+s a model completion, $r_i$ is the human rating of $y_i$, and $z_i$ is the =
+corresponding human-provided hindsight feedback. Assume the feedback tuples=
+ are ranked by reward, $r_n \geq r_{n-1} \geq \dots \geq r_1$ The process i=
+s supervised fine-tuning where the data is a sequence in the form of $\tau_=
+h =3D (x, z_i, y_i, z_j, y_j, \dots, z_n, y_n)$, where $\leq i \leq j \leq =
+n$. The model is finetuned to only predict $y_n$ where conditioned on the s=
+equence prefix, such that the model can self-reflect to produce better outp=
+ut based on the feedback sequence. The model can optionally receive multipl=
+e rounds of instructions with human annotators at test time.</p>
+<p>To avoid overfitting, CoH adds a regularization term to maximize the log=
+-likelihood of the pre-training dataset. To avoid shortcutting and copying =
+(because there are many common words in feedback sequences), they randomly =
+mask 0% - 5% of past tokens during training.</p>
+<p>The training dataset in their experiments is a combination of <a href=3D=
+"https://huggingface.co/datasets/openai/webgpt_comparisons">WebGPT comparis=
+ons</a>, <a href=3D"https://github.com/openai/summarize-from-feedback">summ=
+arization from human feedback</a> and <a href=3D"https://github.com/anthrop=
+ics/hh-rlhf">human preference dataset</a>.</p>
+<img src=3D"https://lilianweng.github.io/posts/2023-06-23-agent/CoH.png" st=
+yle=3D"width: 100%;" class=3D"center">
+<figcaption>Fig. 5. After fine-tuning with CoH, the model can follow instru=
+ctions to produce outputs with incremental improvement in a sequence. (Imag=
+e source: <a href=3D"https://arxiv.org/abs/2302.02676" target=3D"_blank">Li=
+u et al. 2023</a>)</figcaption>
+<p>The idea of CoH is to present a history of sequentially improved outputs=
+  in context and train the model to take on the trend to produce better out=
+puts. <strong>Algorithm Distillation</strong> (AD; <a href=3D"https://arxiv=
+.org/abs/2210.14215">Laskin et al. 2023</a>) applies the same idea to cross=
+-episode trajectories in reinforcement learning tasks, where an <em>algorit=
+hm</em> is encapsulated in a long history-conditioned policy. Considering t=
+hat an agent interacts with the environment many times and in each episode =
+the agent gets a little better, AD concatenates this learning history and f=
+eeds that into the model. Hence we should expect the next predicted action =
+to lead to better performance than previous trials. The goal is to learn th=
+e process of RL instead of training a task-specific policy itself.</p>
+<img src=3D"https://lilianweng.github.io/posts/2023-06-23-agent/algorithm-d=
+istillation.png" style=3D"width: 85%;" class=3D"center">
+<figcaption>Fig. 6. Illustration of how Algorithm Distillation (AD) works. =
+<br>(Image source: <a href=3D"https://arxiv.org/abs/2210.14215" target=3D"_=
+blank">Laskin et al. 2023</a>).</figcaption>
+<p>The paper hypothesizes that any algorithm that generates a set of learni=
+ng histories can be distilled into a neural network by performing behaviora=
+l cloning over actions. The history data is generated by a set of source po=
+licies, each trained for a specific task. At the training stage, during eac=
+h RL run, a random task is sampled and a subsequence of multi-episode histo=
+ry is used for training, such that the learned policy is task-agnostic.</p>
+<p>In reality, the model has limited context window length, so episodes sho=
+uld be short enough to construct multi-episode history. Multi-episodic cont=
+exts of 2-4 episodes are necessary to learn a near-optimal in-context RL al=
+gorithm. The emergence of in-context RL requires long enough context.</p>
+<p>In comparison with three baselines, including ED (expert distillation, b=
+ehavior cloning with expert trajectories instead of learning history), sour=
+ce policy (used for generating trajectories for distillation by <a href=3D"=
+https://lilianweng.github.io/posts/2018-01-23-multi-armed-bandit/#upper-con=
+fidence-bounds">UCB</a>), RL^2 (<a href=3D"https://arxiv.org/abs/1611.02779=
+">Duan et al. 2017</a>; used as upper bound since it needs online RL), AD d=
+emonstrates in-context RL with performance getting close to RL^2 despite on=
+ly using offline RL and learns much faster than other baselines. When condi=
+tioned on partial training history of the source policy, AD also improves m=
+uch faster than ED baseline.</p>
+<img src=3D"https://lilianweng.github.io/posts/2023-06-23-agent/algorithm-d=
+istillation-results.png" style=3D"width: 100%;" class=3D"center">
+<figcaption>Fig. 7. Comparison of AD, ED, source policy and RL^2 on environ=
+ments that require memory and exploration. Only binary reward is assigned. =
+The source policies are trained with <a href=3D"https://lilianweng.github.i=
+o/posts/2018-04-08-policy-gradient/#a3c" target=3D"_blank">A3C</a> for "dar=
+k" environments and <a href=3D"http://lilianweng.github.io/posts/2018-02-19=
+-rl-overview/#deep-q-network" target=3D"_blank">DQN</a> for watermaze.<br>(=
+Image source: <a href=3D"https://arxiv.org/abs/2210.14215" target=3D"_blank=
+">Laskin et al. 2023</a>)</figcaption>
+<h1 id=3D"component-two-memory">Component Two: Memory</h1>
+<p>(Big thank you to ChatGPT for helping me draft this section. I=E2=80=99v=
+e learned a lot about the human brain and data structure for fast MIPS in m=
+y <a href=3D"https://chat.openai.com/share/46ff149e-a4c7-4dd7-a800-fc4a642e=
+a389">conversations</a> with ChatGPT.)</p>
+<h2 id=3D"types-of-memory">Types of Memory</h2>
+<p>Memory can be defined as the processes used to acquire, store, retain, a=
+nd later retrieve information. There are several types of memory in human b=
+rains.</p>
+<ol>
+<li>
+<p><strong>Sensory Memory</strong>: This is the earliest stage of memory, p=
+roviding the ability to retain impressions of sensory information (visual, =
+auditory, etc) after the original stimuli have ended. Sensory memory typica=
+lly only lasts for up to a few seconds. Subcategories include iconic memory=
+ (visual), echoic memory (auditory), and haptic memory (touch).</p>
+</li>
+<li>
+<p><strong>Short-Term Memory</strong> (STM) or <strong>Working Memory</stro=
+ng>: It stores information that we are currently aware of and needed to car=
+ry out complex cognitive tasks such as learning and reasoning. Short-term m=
+emory is believed to have the capacity of about 7 items (<a href=3D"https:/=
+/lilianweng.github.io/posts/2023-06-23-agent/psychclassics.yorku.ca/Miller/=
+">Miller 1956</a>) and lasts for 20-30 seconds.</p>
+</li>
+<li>
+<p><strong>Long-Term Memory</strong> (LTM): Long-term memory can store info=
+rmation for a remarkably long time, ranging from a few days to decades, wit=
+h an essentially unlimited storage capacity. There are two subtypes of LTM:=
+</p>
+<ul>
+<li>Explicit / declarative memory: This is memory of facts and events, and =
+refers to those memories that can be consciously recalled, including episod=
+ic memory (events and experiences) and semantic memory (facts and concepts)=
+.</li>
+<li>Implicit / procedural memory: This type of memory is unconscious and in=
+volves skills and routines that are performed automatically, like riding a =
+bike or typing on a keyboard.</li>
+</ul>
+</li>
+</ol>
+<img src=3D"https://lilianweng.github.io/posts/2023-06-23-agent/memory.png"=
+ style=3D"width: 100%;" class=3D"center">
+<figcaption>Fig. 8. Categorization of human memory.</figcaption>
+<p>We can roughly consider the following mappings:</p>
+<ul>
+<li>Sensory memory as learning embedding representations for raw inputs, in=
+cluding text, image or other modalities;</li>
+<li>Short-term memory as in-context learning. It is short and finite, as it=
+ is restricted by the finite context window length of Transformer.</li>
+<li>Long-term memory as the external vector store that the agent can attend=
+ to at query time, accessible via fast retrieval.</li>
+</ul>
+<h2 id=3D"maximum-inner-product-search-mips">Maximum Inner Product Search (=
+MIPS)</h2>
+<p>The external memory can alleviate the restriction of finite attention sp=
+an.  A standard practice is to save the embedding representation of informa=
+tion into a vector store database that can support fast maximum inner-produ=
+ct search (<a href=3D"https://en.wikipedia.org/wiki/Maximum_inner-product_s=
+earch">MIPS</a>). To optimize the retrieval speed, the common choice is the=
+ <em>approximate nearest neighbors (ANN)=E2=80=8B</em> algorithm to return =
+approximately top k nearest neighbors to trade off a little accuracy lost f=
+or a huge speedup.</p>
+<p>A couple common choices of ANN algorithms for fast MIPS:</p>
+<ul>
+<li><a href=3D"https://en.wikipedia.org/wiki/Locality-sensitive_hashing"><s=
+trong>LSH</strong></a> (Locality-Sensitive Hashing): It introduces a <em>ha=
+shing</em> function such that similar input items are mapped to the same bu=
+ckets with high probability, where the number of buckets is much smaller th=
+an the number of inputs.</li>
+<li><a href=3D"https://github.com/spotify/annoy"><strong>ANNOY</strong></a>=
+ (Approximate Nearest Neighbors Oh Yeah): The core data structure are <em>r=
+andom projection trees</em>, a set of binary trees where each non-leaf node=
+ represents a hyperplane splitting the input space into half and each leaf =
+stores one data point. Trees are built independently and at random, so to s=
+ome extent, it mimics a hashing function. ANNOY search happens in all the t=
+rees to iteratively search through the half that is closest to the query an=
+d then aggregates the results. The idea is quite related to KD tree but a l=
+ot more scalable.</li>
+<li><a href=3D"https://arxiv.org/abs/1603.09320"><strong>HNSW</strong></a> =
+(Hierarchical Navigable Small World): It is inspired by the idea of <a href=
+=3D"https://en.wikipedia.org/wiki/Small-world_network">small world networks=
+</a> where most nodes can be reached by any other nodes within a small numb=
+er of steps; e.g. =E2=80=9Csix degrees of separation=E2=80=9D feature of so=
+cial networks. HNSW builds hierarchical layers of these small-world graphs,=
+ where the bottom layers contain the actual data points. The layers in the =
+middle create shortcuts to speed up search. When performing a search, HNSW =
+starts from a random node in the top layer and navigates towards the target=
+. When it can=E2=80=99t get any closer, it moves down to the next layer, un=
+til it reaches the bottom layer. Each move in the upper layers can potentia=
+lly cover a large distance in the data space, and each move in the lower la=
+yers refines the search quality.</li>
+<li><a href=3D"https://github.com/facebookresearch/faiss"><strong>FAISS</st=
+rong></a> (Facebook AI Similarity Search): It operates on the assumption th=
+at in high dimensional space, distances between nodes follow a Gaussian dis=
+tribution and thus there should exist <em>clustering</em> of data points. F=
+AISS applies vector quantization by partitioning the vector space into clus=
+ters and then refining the quantization within clusters. Search first looks=
+ for cluster candidates with coarse quantization and then further looks int=
+o each cluster with finer quantization.</li>
+<li><a href=3D"https://github.com/google-research/google-research/tree/mast=
+er/scann"><strong>ScaNN</strong></a> (Scalable Nearest Neighbors): The main=
+ innovation in ScaNN is <em>anisotropic vector quantization</em>. It quanti=
+zes a data point $x_i$ to $\tilde{x}_i$ such that the inner product $\langl=
+e q, x_i \rangle$ is as similar to the original distance of $\angle q, \til=
+de{x}_i$ as possible, instead of picking the closet quantization centroid p=
+oints.</li>
+</ul>
+<img src=3D"https://lilianweng.github.io/posts/2023-06-23-agent/mips.png" s=
+tyle=3D"width: 80%;" class=3D"center">
+<figcaption>Fig. 9. Comparison of MIPS algorithms, measured in recall@10. (=
+Image source: <a href=3D"https://ai.googleblog.com/2020/07/announcing-scann=
+-efficient-vector.html" target=3D"_blank">Google Blog, 2020</a>)</figcaptio=
+n>
+<p>Check more MIPS algorithms and performance comparison in <a href=3D"http=
+s://ann-benchmarks.com/">ann-benchmarks.com</a>.</p>
+<h1 id=3D"component-three-tool-use">Component Three: Tool Use</h1>
+<p>Tool use is a remarkable and distinguishing characteristic of human bein=
+gs. We create, modify and utilize external objects to do things that go bey=
+ond our physical and cognitive limits. Equipping LLMs with external tools c=
+an significantly extend the model capabilities.</p>
+<img src=3D"https://lilianweng.github.io/posts/2023-06-23-agent/sea-otter.p=
+ng" style=3D"width: 500px;" class=3D"center">
+<figcaption>Fig. 10. A picture of a sea otter using rock to crack open a se=
+ashell, while floating in the water. While some other animals can use tools=
+, the complexity is not comparable with humans. (Image source: <a href=3D"h=
+ttps://www.popularmechanics.com/science/animals/g39714258/animals-using-too=
+ls/" target=3D"_blank">Animals using tools</a>)</figcaption>
+<p><a name=3D"mrkl"></a><strong>MRKL</strong> (<a href=3D"https://arxiv.org=
+/abs/2205.00445">Karpas et al. 2022</a>), short for =E2=80=9CModular Reason=
+ing, Knowledge and Language=E2=80=9D, is a neuro-symbolic architecture for =
+autonomous agents. A MRKL system is proposed to contain a collection of =E2=
+=80=9Cexpert=E2=80=9D modules and the general-purpose LLM works as a router=
+ to route inquiries to the best suitable expert module. These modules can b=
+e neural (e.g. deep learning models) or symbolic (e.g. math calculator, cur=
+rency converter, weather API).</p>
+<p>They did an experiment on fine-tuning LLM to call a calculator, using ar=
+ithmetic as a test case. Their experiments showed that it was harder to sol=
+ve verbal math problems than explicitly stated math problems because LLMs (=
+7B Jurassic1-large model) failed to extract the right arguments for the bas=
+ic arithmetic reliably. The results highlight when the external symbolic to=
+ols can work reliably, <em>knowing when to and how to use the tools are cru=
+cial</em>, determined by the LLM capability.</p>
+<p>Both <strong>TALM</strong> (Tool Augmented Language Models; <a href=3D"h=
+ttps://arxiv.org/abs/2205.12255">Parisi et al. 2022</a>) and <strong>Toolfo=
+rmer</strong> (<a href=3D"https://arxiv.org/abs/2302.04761">Schick et al. 2=
+023</a>) fine-tune a LM to learn to use external tool APIs. The dataset is =
+expanded based on whether a newly added API call annotation can improve the=
+ quality of model outputs. See more details in the <a href=3D"https://lilia=
+nweng.github.io/posts/2023-03-15-prompt-engineering/#external-apis">=E2=80=
+=9CExternal APIs=E2=80=9D section</a> of Prompt Engineering.</p>
+<p>ChatGPT <a href=3D"https://openai.com/blog/chatgpt-plugins">Plugins</a> =
+and OpenAI API  <a href=3D"https://platform.openai.com/docs/guides/gpt/func=
+tion-calling">function calling</a> are good examples of LLMs augmented with=
+ tool use capability working in practice. The collection of tool APIs can b=
+e provided by other developers (as in Plugins) or self-defined (as in funct=
+ion calls).</p>
+<p><strong>HuggingGPT</strong> (<a href=3D"https://arxiv.org/abs/2303.17580=
+">Shen et al. 2023</a>) is a framework to use ChatGPT as the task planner t=
+o select models available in HuggingFace platform according to the model de=
+scriptions and summarize the response based on the execution results.</p>
+<img src=3D"https://lilianweng.github.io/posts/2023-06-23-agent/hugging-gpt=
+.png" style=3D"width: 100%;" class=3D"center">
+<figcaption>Fig. 11. Illustration of how HuggingGPT works. (Image source: <=
+a href=3D"https://arxiv.org/abs/2303.17580" target=3D"_blank">Shen et al. 2=
+023</a>)</figcaption>
+<p>The system comprises of 4 stages:</p>
+<p><strong>(1) Task planning</strong>: LLM works as the brain and parses th=
+e user requests into multiple tasks. There are four attributes associated w=
+ith each task: task type, ID, dependencies, and arguments. They use few-sho=
+t examples to guide LLM to do task parsing and planning.</p>
+<p>Instruction:</p>
+<div class=3D"prompt">
+The AI assistant can parse user input to several tasks: [{"task": task, "id=
+", task_id, "dep": dependency_task_ids, "args": {"text": text, "image": URL=
+, "audio": URL, "video": URL}}]. The "dep" field denotes the id of the prev=
+ious task which generates a new resource that the current task relies on. A=
+ special tag "<resource>-task_id" refers to the generated text image, audio=
+ and video in the dependency task with id as task_id. The task MUST be sele=
+cted from the following options: {{ Available Task List }}. There is a logi=
+cal relationship between tasks, please note their order. If the user input =
+can't be parsed, you need to reply empty JSON. Here are several cases for y=
+our reference: {{ Demonstrations }}. The chat history is recorded as {{ Cha=
+t History }}. From this chat history, you can find the path of the user-men=
+tioned resources for your task planning.
+</resource></div>
+<p><strong>(2) Model selection</strong>: LLM distributes the tasks to exper=
+t models, where the request is framed as a multiple-choice question. LLM is=
+ presented with a list of models to choose from. Due to the limited context=
+ length, task type based filtration is needed.</p>
+<p>Instruction:</p>
+<div class=3D"prompt">
+Given the user request and the call command, the AI assistant helps the use=
+r to select a suitable model from a list of models to process the user requ=
+est. The AI assistant merely outputs the model id of the most appropriate m=
+odel. The output must be in a strict JSON format: "id": "id", "reason": "yo=
+ur detail reason for the choice". We have a list of models for you to choos=
+e from {{ Candidate Models }}. Please select one model from the list.
+</div>
+<p><strong>(3) Task execution</strong>: Expert models execute on the specif=
+ic tasks and log results.</p>
+<p>Instruction:</p>
+<div class=3D"prompt">
+With the input and the inference results, the AI assistant needs to describ=
+e the process and results. The previous stages can be formed as - User Inpu=
+t: {{ User Input }}, Task Planning: {{ Tasks }}, Model Selection: {{ Model =
+Assignment }}, Task Execution: {{ Predictions }}. You must first answer the=
+ user's request in a straightforward manner. Then describe the task process=
+ and show your analysis and model inference results to the user in the firs=
+t person. If inference results contain a file path, must tell the user the =
+complete file path.
+</div>
+<p><strong>(4) Response generation</strong>: LLM receives the execution res=
+ults and provides summarized results to users.</p>
+<p>To put HuggingGPT into real world usage, a couple challenges need to sol=
+ve: (1) Efficiency improvement is needed as both LLM inference rounds and i=
+nteractions with other models slow down the process; (2) It relies on a lon=
+g context window to communicate over complicated task content; (3) Stabilit=
+y improvement of LLM outputs and external model services.</p>
+<p><strong>API-Bank</strong> (<a href=3D"https://arxiv.org/abs/2304.08244">=
+Li et al. 2023</a>) is a benchmark for evaluating the performance of tool-a=
+ugmented LLMs. It contains 53 commonly used API tools, a complete tool-augm=
+ented LLM workflow, and 264 annotated dialogues that involve 568 API calls.=
+ The selection of APIs is quite diverse, including search engines, calculat=
+or, calendar queries, smart home control, schedule management, health data =
+management, account authentication workflow and more. Because there are a l=
+arge number of APIs, LLM first has access to API search engine to find the =
+right API to call and then uses the corresponding documentation to make a c=
+all.</p>
+<img src=3D"https://lilianweng.github.io/posts/2023-06-23-agent/api-bank-pr=
+ocess.png" style=3D"width: 60%;" class=3D"center">
+<figcaption>Fig. 12. Pseudo code of how LLM makes an API call in API-Bank. =
+(Image source: <a href=3D"https://arxiv.org/abs/2304.08244" target=3D"_blan=
+k">Li et al. 2023</a>)</figcaption>
+<p>In the API-Bank workflow, LLMs need to make a couple of decisions and at=
+ each step we can evaluate how accurate that decision is. Decisions include=
+:</p>
+<ol>
+<li>Whether an API call is needed.</li>
+<li>Identify the right API to call: if not good enough, LLMs need to iterat=
+ively modify the API inputs (e.g. deciding search keywords for Search Engin=
+e API).</li>
+<li>Response based on the API results: the model can choose to refine and c=
+all again if results are not satisfied.</li>
+</ol>
+<p>This benchmark evaluates the agent=E2=80=99s tool use capabilities at th=
+ree levels:</p>
+<ul>
+<li>Level-1 evaluates the ability to <em>call the API</em>. Given an API=E2=
+=80=99s description, the model needs to determine whether to call a given A=
+PI, call it correctly, and respond properly to API returns.</li>
+<li>Level-2 examines the ability to <em>retrieve the API</em>. The model ne=
+eds to search for possible APIs that may solve the user=E2=80=99s requireme=
+nt and learn how to use them by reading documentation.</li>
+<li>Level-3 assesses the ability to <em>plan API beyond retrieve and call</=
+em>. Given unclear user requests (e.g. schedule group meetings, book flight=
+/hotel/restaurant for a trip), the model may have to conduct multiple API c=
+alls to solve it.</li>
+</ul>
+<h1 id=3D"case-studies">Case Studies</h1>
+<h2 id=3D"scientific-discovery-agent">Scientific Discovery Agent</h2>
+<p><strong>ChemCrow</strong> (<a href=3D"https://arxiv.org/abs/2304.05376">=
+Bran et al. 2023</a>) is a domain-specific example in which LLM is augmente=
+d with 13 expert-designed tools to accomplish tasks across organic synthesi=
+s, drug discovery, and materials design. The workflow, implemented in <a hr=
+ef=3D"https://github.com/hwchase17/langchain">LangChain</a>, reflects what =
+was previously described in the <a href=3D"https://lilianweng.github.io/pos=
+ts/2023-06-23-agent/#react">ReAct</a> and <a href=3D"https://lilianweng.git=
+hub.io/posts/2023-06-23-agent/#mrkl">MRKLs</a> and combines CoT reasoning w=
+ith tools relevant to the tasks:</p>
+<ul>
+<li>The LLM is provided with a list of tool names, descriptions of their ut=
+ility, and details about the expected input/output.</li>
+<li>It is then instructed to answer a user-given prompt using the tools pro=
+vided when necessary. The instruction suggests the model to follow the ReAc=
+t format - <code>Thought, Action, Action Input, Observation</code>.</li>
+</ul>
+<p>One interesting observation is that while the LLM-based evaluation concl=
+uded that GPT-4 and ChemCrow perform nearly equivalently, human evaluations=
+ with experts oriented towards the completion and chemical correctness of t=
+he solutions showed that ChemCrow outperforms GPT-4 by a large margin. This=
+ indicates a potential problem with using LLM to evaluate its own performan=
+ce on domains that requires deep expertise. The lack of expertise may cause=
+ LLMs not knowing its flaws and thus cannot well judge the correctness of t=
+ask results.</p>
+<p><a href=3D"https://arxiv.org/abs/2304.05332">Boiko et al. (2023)</a> als=
+o looked into LLM-empowered agents for scientific discovery, to handle auto=
+nomous design, planning, and performance of complex scientific experiments.=
+ This agent can use tools to browse the Internet, read documentation, execu=
+te code, call robotics experimentation APIs and leverage other LLMs.</p>
+<p>For example, when requested to <code>"develop a novel anticancer drug"</=
+code>, the model came up with the following reasoning steps:</p>
+<ol>
+<li>inquired about current trends in anticancer drug discovery;</li>
+<li>selected a target;</li>
+<li>requested a scaffold targeting these compounds;</li>
+<li>Once the compound was identified, the model attempted its synthesis.</l=
+i>
+</ol>
+<p>They also discussed the risks, especially with illicit drugs and bioweap=
+ons. They developed a test set containing a list of known chemical weapon a=
+gents and asked the agent to synthesize them. 4 out of 11 requests (36%) we=
+re accepted to obtain a synthesis solution and the agent attempted to consu=
+lt documentation to execute the procedure. 7 out of 11 were rejected and am=
+ong these 7 rejected cases, 5 happened after a Web search while 2 were reje=
+cted based on prompt only.</p>
+<h2 id=3D"generative-agents-simulation">Generative Agents Simulation</h2>
+<p><strong>Generative Agents</strong> (<a href=3D"https://arxiv.org/abs/230=
+4.03442">Park, et al. 2023</a>) is super fun experiment where 25 virtual ch=
+aracters, each controlled by a LLM-powered agent, are living and interactin=
+g in a sandbox environment, inspired by The Sims. Generative agents create =
+believable simulacra of human behavior for interactive applications.</p>
+<p>The design of generative agents combines LLM with memory, planning and r=
+eflection mechanisms to enable agents to behave conditioned on past experie=
+nce, as well as to interact with other agents.</p>
+<ul>
+<li><strong>Memory</strong> stream: is a long-term memory module (external =
+database) that records a comprehensive list of agents=E2=80=99 experience i=
+n natural language.
+<ul>
+<li>Each element is an <em>observation</em>, an event directly provided by =
+the agent.
+- Inter-agent communication can trigger new natural language statements.</l=
+i>
+</ul>
+</li>
+<li><strong>Retrieval</strong> model: surfaces the context to inform the ag=
+ent=E2=80=99s behavior, according to relevance, recency and importance.
+<ul>
+<li>Recency: recent events have higher scores</li>
+<li>Importance: distinguish mundane from core memories. Ask LM directly.</l=
+i>
+<li>Relevance: based on how related it is to the current situation / query.=
+</li>
+</ul>
+</li>
+<li><strong>Reflection</strong> mechanism: synthesizes memories into higher=
+ level inferences over time and guides the agent=E2=80=99s future behavior.=
+ They are <em>higher-level summaries of past events</em> (&lt;- note that t=
+his is a bit different from <a href=3D"https://lilianweng.github.io/posts/2=
+023-06-23-agent/#self-reflection">self-reflection</a> above)
+<ul>
+<li>Prompt LM with 100 most recent observations and to generate 3 most sali=
+ent high-level questions given a set of observations/statements. Then ask L=
+M to answer those questions.</li>
+</ul>
+</li>
+<li><strong>Planning &amp; Reacting</strong>: translate the reflections and=
+ the environment information into actions
+<ul>
+<li>Planning is essentially in order to optimize believability at the momen=
+t vs in time.</li>
+<li>Prompt template: <code>{Intro of an agent X}. Here is X's plan today in=
+ broad strokes: 1)</code></li>
+<li>Relationships between agents and observations of one agent by another a=
+re all taken into consideration for planning and reacting.</li>
+<li>Environment information is present in a tree structure.</li>
+</ul>
+</li>
+</ul>
+<img src=3D"https://lilianweng.github.io/posts/2023-06-23-agent/generative-=
+agents.png" style=3D"width: 100%;" class=3D"center">
+<figcaption>Fig. 13. The generative agent architecture. (Image source: <a h=
+ref=3D"https://arxiv.org/abs/2304.03442" target=3D"_blank">Park et al. 2023=
+</a>)</figcaption>
+<p>This fun simulation results in emergent social behavior, such as informa=
+tion diffusion, relationship memory (e.g. two agents continuing the convers=
+ation topic) and coordination of social events (e.g. host a party and invit=
+e many others).</p>
+<h2 id=3D"proof-of-concept-examples">Proof-of-Concept Examples</h2>
+<p><a href=3D"https://github.com/Significant-Gravitas/Auto-GPT">AutoGPT</a>=
+ has drawn a lot of attention into the possibility of setting up autonomous=
+ agents with LLM as the main controller. It has quite a lot of reliability =
+issues given the natural language interface, but nevertheless a cool proof-=
+of-concept demo. A lot of code in AutoGPT is about format parsing.</p>
+<p>Here is the system message used by AutoGPT, where <code>{{...}}</code> a=
+re user inputs:</p>
+<pre tabindex=3D"0"><code>You are {{ai-name}}, {{user-provided AI bot descr=
+iption}}.
+Your decisions must always be made independently without seeking user assis=
+tance. Play to your strengths as an LLM and pursue simple strategies with n=
+o legal complications.
+
+GOALS:
+
+1. {{user-provided goal 1}}
+2. {{user-provided goal 2}}
+3. ...
+4. ...
+5. ...
+
+Constraints:
+1. ~4000 word limit for short term memory. Your short term memory is short,=
+ so immediately save important information to files.
+2. If you are unsure how you previously did something or want to recall pas=
+t events, thinking about similar events will help you remember.
+3. No user assistance
+4. Exclusively use the commands listed in double quotes e.g. "command name"
+5. Use subprocesses for commands that will not terminate within a few minut=
+es
+
+Commands:
+1. Google Search: "google", args: "input": "&lt;search&gt;"
+2. Browse Website: "browse_website", args: "url": "&lt;url&gt;", "question"=
+: "&lt;what_you_want_to_find_on_website&gt;"
+3. Start GPT Agent: "start_agent", args: "name": "&lt;name&gt;", "task": "&=
+lt;short_task_desc&gt;", "prompt": "&lt;prompt&gt;"
+4. Message GPT Agent: "message_agent", args: "key": "&lt;key&gt;", "message=
+": "&lt;message&gt;"
+5. List GPT Agents: "list_agents", args:
+6. Delete GPT Agent: "delete_agent", args: "key": "&lt;key&gt;"
+7. Clone Repository: "clone_repository", args: "repository_url": "&lt;url&g=
+t;", "clone_path": "&lt;directory&gt;"
+8. Write to file: "write_to_file", args: "file": "&lt;file&gt;", "text": "&=
+lt;text&gt;"
+9. Read file: "read_file", args: "file": "&lt;file&gt;"
+10. Append to file: "append_to_file", args: "file": "&lt;file&gt;", "text":=
+ "&lt;text&gt;"
+11. Delete file: "delete_file", args: "file": "&lt;file&gt;"
+12. Search Files: "search_files", args: "directory": "&lt;directory&gt;"
+13. Analyze Code: "analyze_code", args: "code": "&lt;full_code_string&gt;"
+14. Get Improved Code: "improve_code", args: "suggestions": "&lt;list_of_su=
+ggestions&gt;", "code": "&lt;full_code_string&gt;"
+15. Write Tests: "write_tests", args: "code": "&lt;full_code_string&gt;", "=
+focus": "&lt;list_of_focus_areas&gt;"
+16. Execute Python File: "execute_python_file", args: "file": "&lt;file&gt;=
+"
+17. Generate Image: "generate_image", args: "prompt": "&lt;prompt&gt;"
+18. Send Tweet: "send_tweet", args: "text": "&lt;text&gt;"
+19. Do Nothing: "do_nothing", args:
+20. Task Complete (Shutdown): "task_complete", args: "reason": "&lt;reason&=
+gt;"
+
+Resources:
+1. Internet access for searches and information gathering.
+2. Long Term memory management.
+3. GPT-3.5 powered Agents for delegation of simple tasks.
+4. File output.
+
+Performance Evaluation:
+1. Continuously review and analyze your actions to ensure you are performin=
+g to the best of your abilities.
+2. Constructively self-criticize your big-picture behavior constantly.
+3. Reflect on past decisions and strategies to refine your approach.
+4. Every command has a cost, so be smart and efficient. Aim to complete tas=
+ks in the least number of steps.
+
+You should only respond in JSON format as described below
+Response Format:
+{
+    "thoughts": {
+        "text": "thought",
+        "reasoning": "reasoning",
+        "plan": "- short bulleted\n- list that conveys\n- long-term plan",
+        "criticism": "constructive self-criticism",
+        "speak": "thoughts summary to say to user"
+    },
+    "command": {
+        "name": "command name",
+        "args": {
+            "arg name": "value"
+        }
+    }
+}
+Ensure the response can be parsed by Python json.loads
+</code><button class=3D"copy-code">copy</button></pre><p><a href=3D"https:/=
+/github.com/AntonOsika/gpt-engineer">GPT-Engineer</a> is another project to=
+ create a whole repository of code given a task specified in natural langua=
+ge. The GPT-Engineer is instructed to think over a list of smaller componen=
+ts to build and ask for user input to clarify questions as needed.</p>
+<p>Here are a sample conversation for task clarification sent to OpenAI Cha=
+tCompletion endpoint used by GPT-Engineer. The user inputs are wrapped in <=
+code>{{user input text}}</code>.</p>
+<pre tabindex=3D"0"><code>[
+  {
+    "role": "system",
+    "content": "You will read instructions and not carry them out, only see=
+k to clarify them.\nSpecifically you will first summarise a list of super s=
+hort bullets of areas that need clarification.\nThen you will pick one clar=
+ifying question, and wait for an answer from the user.\n"
+  },
+  {
+    "role": "user",
+    "content": "We are writing {{a Super Mario game in python. MVC componen=
+ts split in separate files. Keyboard control.}}\n"
+  },
+  {
+    "role": "assistant",
+    "content": "Summary of areas that need clarification:\n1. Specifics of =
+the Super Mario game (e.g. level design, characters, gameplay mechanics)\n2=
+. Details about the MVC components (e.g. which components are in each file)=
+\n3. Keyboard control implementation (e.g. which keys to use, how to handle=
+ input)\n\nClarifying question:\nCan you provide more details about the Sup=
+er Mario game, such as level design, characters, and gameplay mechanics?"
+  },
+  {
+    "role": "user",
+    "content": "{{There are 10 levels in total. The main character is a plu=
+mber named Mario, who can walk and jump. It is a classical platform game ju=
+st like Super Mario. The main character moves from left to right, trying to=
+ get to the destination, where there are many obstacles and attacks from en=
+emies in the process.}}\n\nIs anything else unclear? If yes, only answer in=
+ the form:\n{remaining unclear areas} remaining questions.\n{Next question}=
+\nIf everything is sufficiently clear, only answer \"Nothing more to clarif=
+y.\"."
+  },
+  {
+    "role": "assistant",
+    "content": "Remaining unclear areas: 2 remaining questions.\nCan you pr=
+ovide more information about how the MVC components are split into separate=
+ files?"
+  },
+  {
+    "role": "user",
+    "content": "{{Make your own assumptions and state them explicitly befor=
+e starting}}"
+  }
+]
+</code><button class=3D"copy-code">copy</button></pre><p>Then after these c=
+larification, the agent moved into the code writing mode with a different s=
+ystem message.
+System message:</p>
+<div class=3D"prompt">
+You will get instructions for code to write.
+You will write a very long answer. Make sure that every detail of the archi=
+tecture is, in the end, implemented as code.
+Make sure that every detail of the architecture is, in the end, implemented=
+ as code.
+<p>Think step by step and reason yourself to the right decisions to make su=
+re we get it right.
+You will first lay out the names of the core classes, functions, methods th=
+at will be necessary, as well as a quick comment on their purpose.</p>
+<p>Then you will output the content of each file including ALL code.
+Each file must strictly follow a markdown code block format, where the foll=
+owing tokens must be replaced such that
+FILENAME is the lowercase file name including the file extension,
+LANG is the markup code block language for the code=E2=80=99s language, and=
+ CODE is the code:</p>
+<p>FILENAME</p>
+<pre tabindex=3D"0"><code class=3D"language-LANG" data-lang=3D"LANG">CODE
+</code><button class=3D"copy-code">copy</button></pre><p>You will start wit=
+h the =E2=80=9Centrypoint=E2=80=9D file, then go to the ones that are impor=
+ted by that file, and so on.
+Please note that the code should be fully functional. No placeholders.</p>
+<p>Follow a language and framework appropriate best practice file naming co=
+nvention.
+Make sure that files contain all imports, types etc. Make sure that code in=
+ different files are compatible with each other.
+Ensure to implement all code, if you are unsure, write a plausible implemen=
+tation.
+Include module dependency or package manager dependency definition file.
+Before you finish, double check that all parts of the architecture is prese=
+nt in the files.</p>
+<p>Useful to know:
+You almost always put different classes in different files.
+For Python, you always create an appropriate requirements.txt file.
+For NodeJS, you always create an appropriate package.json file.
+You always add a comment briefly describing the purpose of the function def=
+inition.
+You try to add comments explaining very complex bits of logic.
+You always follow the best practices for the requested languages in terms o=
+f describing the code written as a defined
+package/project.</p>
+<p>Python toolbelt preferences:</p>
+<ul>
+<li>pytest</li>
+<li>dataclasses</li>
+</ul>
+</div>
+<p>Conversatin samples:</p>
+<pre tabindex=3D"0"><code>[
+  {
+    "role": "system",
+    "content": "You will get instructions for code to write.\nYou will writ=
+e a very long answer. Make sure that every detail of the architecture is, i=
+n the end, implemented as code.\nMake sure that every detail of the archite=
+cture is, in the end, implemented as code.\n\nThink step by step and reason=
+ yourself to the right decisions to make sure we get it right.\nYou will fi=
+rst lay out the names of the core classes, functions, methods that will be =
+necessary, as well as a quick comment on their purpose.\n\nThen you will ou=
+tput the content of each file including ALL code.\nEach file must strictly =
+follow a markdown code block format, where the following tokens must be rep=
+laced such that\nFILENAME is the lowercase file name including the file ext=
+ension,\nLANG is the markup code block language for the code's language, an=
+d CODE is the code:\n\nFILENAME\n```LANG\nCODE\n```\n\nYou will start with =
+the \"entrypoint\" file, then go to the ones that are imported by that file=
+, and so on.\nPlease note that the code should be fully functional. No plac=
+eholders.\n\nFollow a language and framework appropriate best practice file=
+ naming convention.\nMake sure that files contain all imports, types etc. M=
+ake sure that code in different files are compatible with each other.\nEnsu=
+re to implement all code, if you are unsure, write a plausible implementati=
+on.\nInclude module dependency or package manager dependency definition fil=
+e.\nBefore you finish, double check that all parts of the architecture is p=
+resent in the files.\n\nUseful to know:\nYou almost always put different cl=
+asses in different files.\nFor Python, you always create an appropriate req=
+uirements.txt file.\nFor NodeJS, you always create an appropriate package.j=
+son file.\nYou always add a comment briefly describing the purpose of the f=
+unction definition.\nYou try to add comments explaining very complex bits o=
+f logic.\nYou always follow the best practices for the requested languages =
+in terms of describing the code written as a defined\npackage/project.\n\n\=
+nPython toolbelt preferences:\n- pytest\n- dataclasses\n"
+  },
+ #  =E2=80=A6 same conversation as earlier, ended with "Make your own assum=
+ptions and state them explicitly before starting".
+  {
+    "role": "assistant",
+    "content": "Assumptions:\n1. Model: The model will contain the game's d=
+ata, such as level information, character states, and enemy positions.\n2. =
+View: The view will handle the game's visuals, including rendering the game=
+ objects, backgrounds, and updating the display.\n3. Controller: The contro=
+ller will manage user input, such as keyboard controls, and update the mode=
+l accordingly.\n\nWith these assumptions in mind, is there any specific asp=
+ect of the keyboard control implementation you would like me to clarify?"
+  },
+  {
+    "role": "user",
+    "content": "Please now remember the steps:\n\nThink step by step and re=
+ason yourself to the right decisions to make sure we get it right.\nFirst l=
+ay out the names of the core classes, functions, methods that will be neces=
+sary, As well as a quick comment on their purpose.\n\nThen you will output =
+the content of each file including ALL code.\nEach file must strictly follo=
+w a markdown code block format, where the following tokens must be replaced=
+ such that\nFILENAME is the lowercase file name including the file extensio=
+n,\nLANG is the markup code block language for the code's language, and COD=
+E is the code:\n\nFILENAME\n```LANG\nCODE\n```\n\nPlease note that the code=
+ should be fully functional. No placeholders.\n\nYou will start with the \"=
+entrypoint\" file, then go to the ones that are imported by that file, and =
+so on.\nFollow a language and framework appropriate best practice file nami=
+ng convention.\nMake sure that files contain all imports, types etc. The co=
+de should be fully functional. Make sure that code in different files are c=
+ompatible with each other.\nBefore you finish, double check that all parts =
+of the architecture is present in the files.\n"
+  }
+]
+</code><button class=3D"copy-code">copy</button></pre><h1 id=3D"challenges"=
+>Challenges</h1>
+<p>After going through key ideas and demos of building LLM-centered agents,=
+ I start to see a couple common limitations:</p>
+<ul>
+<li>
+<p><strong>Finite context length</strong>: The restricted context capacity =
+limits the inclusion of historical information, detailed instructions, API =
+call context, and responses. The design of the system has to work with this=
+ limited communication bandwidth, while mechanisms like self-reflection to =
+learn from past mistakes would benefit a lot from long or infinite context =
+windows. Although vector stores and retrieval can provide access to a large=
+r knowledge pool, their representation power is not as powerful as full att=
+ention.</p>
+</li>
+<li>
+<p><strong>Challenges in long-term planning and task decomposition</strong>=
+: Planning over a lengthy history and effectively exploring the solution sp=
+ace remain challenging. LLMs struggle to adjust plans when faced with unexp=
+ected errors, making them less robust compared to humans who learn from tri=
+al and error.</p>
+</li>
+<li>
+<p><strong>Reliability of natural language interface</strong>: Current agen=
+t system relies on natural language as an interface between LLMs and extern=
+al components such as memory and tools. However, the reliability of model o=
+utputs is questionable, as LLMs may make formatting errors and occasionally=
+ exhibit rebellious behavior (e.g. refuse to follow an instruction). Conseq=
+uently, much of the agent demo code focuses on parsing model output.</p>
+</li>
+</ul>
+<h1 id=3D"citation">Citation</h1>
+<p>Cited as:</p>
+<blockquote>
+<p>Weng, Lilian. (Jun 2023). =E2=80=9CLLM-powered Autonomous Agents=E2=80=
+=9D. Lil=E2=80=99Log. https://lilianweng.github.io/posts/2023-06-23-agent/.=
+</p>
+</blockquote>
+<p>Or</p>
+<pre tabindex=3D"0"><code>@article{weng2023agent,
+  title   =3D "LLM-powered Autonomous Agents",
+  author  =3D "Weng, Lilian",
+  journal =3D "lilianweng.github.io",
+  year    =3D "2023",
+  month   =3D "Jun",
+  url     =3D "https://lilianweng.github.io/posts/2023-06-23-agent/"
+}
+</code><button class=3D"copy-code">copy</button></pre><h1 id=3D"references"=
+>References</h1>
+<p>[1] Wei et al. <a href=3D"https://arxiv.org/abs/2201.11903">=E2=80=9CCha=
+in of thought prompting elicits reasoning in large language models.=E2=80=
+=9D</a> NeurIPS 2022</p>
+<p>[2] Yao et al. <a href=3D"https://arxiv.org/abs/2305.10601">=E2=80=9CTre=
+e of Thoughts: Dliberate Problem Solving with Large Language Models.=E2=80=
+=9D</a> arXiv preprint arXiv:2305.10601 (2023).</p>
+<p>[3] Liu et al. <a href=3D"https://arxiv.org/abs/2302.02676">=E2=80=9CCha=
+in of Hindsight Aligns Language Models with Feedback
+=E2=80=9C</a> arXiv preprint arXiv:2302.02676 (2023).</p>
+<p>[4] Liu et al. <a href=3D"https://arxiv.org/abs/2304.11477">=E2=80=9CLLM=
++P: Empowering Large Language Models with Optimal Planning Proficiency=E2=
+=80=9D</a> arXiv preprint arXiv:2304.11477 (2023).</p>
+<p>[5] Yao et al. <a href=3D"https://arxiv.org/abs/2210.03629">=E2=80=9CReA=
+ct: Synergizing reasoning and acting in language models.=E2=80=9D</a> ICLR =
+2023.</p>
+<p>[6] Google Blog. <a href=3D"https://ai.googleblog.com/2020/07/announcing=
+-scann-efficient-vector.html">=E2=80=9CAnnouncing ScaNN: Efficient Vector S=
+imilarity Search=E2=80=9D</a> July 28, 2020.</p>
+<p>[7] <a href=3D"https://chat.openai.com/share/46ff149e-a4c7-4dd7-a800-fc4=
+a642ea389">https://chat.openai.com/share/46ff149e-a4c7-4dd7-a800-fc4a642ea3=
+89</a></p>
+<p>[8] Shinn &amp; Labash. <a href=3D"https://arxiv.org/abs/2303.11366">=E2=
+=80=9CReflexion: an autonomous agent with dynamic memory and self-reflectio=
+n=E2=80=9D</a> arXiv preprint arXiv:2303.11366 (2023).</p>
+<p>[9] Laskin et al. <a href=3D"https://arxiv.org/abs/2210.14215">=E2=80=9C=
+In-context Reinforcement Learning with Algorithm Distillation=E2=80=9D</a> =
+ICLR 2023.</p>
+<p>[10] Karpas et al. <a href=3D"https://arxiv.org/abs/2205.00445">=E2=80=
+=9CMRKL Systems A modular, neuro-symbolic architecture that combines large =
+language models, external knowledge sources and discrete reasoning.=E2=80=
+=9D</a> arXiv preprint arXiv:2205.00445 (2022).</p>
+<p>[11] Nakano et al. <a href=3D"https://arxiv.org/abs/2112.09332">=E2=80=
+=9CWebgpt: Browser-assisted question-answering with human feedback.=E2=80=
+=9D</a> arXiv preprint arXiv:2112.09332 (2021).</p>
+<p>[12] Parisi et al. <a href=3D"https://arxiv.org/abs/2205.12255">=E2=80=
+=9CTALM: Tool Augmented Language Models=E2=80=9D</a></p>
+<p>[13] Schick et al. <a href=3D"https://arxiv.org/abs/2302.04761">=E2=80=
+=9CToolformer: Language Models Can Teach Themselves to Use Tools.=E2=80=9D<=
+/a> arXiv preprint arXiv:2302.04761 (2023).</p>
+<p>[14] Weaviate Blog. <a href=3D"https://weaviate.io/blog/why-is-vector-se=
+arch-so-fast">Why is Vector Search so fast?</a> Sep 13, 2022.</p>
+<p>[15] Li et al. <a href=3D"https://arxiv.org/abs/2304.08244">=E2=80=9CAPI=
+-Bank: A Benchmark for Tool-Augmented LLMs=E2=80=9D</a> arXiv preprint arXi=
+v:2304.08244 (2023).</p>
+<p>[16] Shen et al. <a href=3D"https://arxiv.org/abs/2303.17580">=E2=80=9CH=
+uggingGPT: Solving AI Tasks with ChatGPT and its Friends in HuggingFace=E2=
+=80=9D</a> arXiv preprint arXiv:2303.17580 (2023).</p>
+<p>[17] Bran et al. <a href=3D"https://arxiv.org/abs/2304.05376">=E2=80=9CC=
+hemCrow: Augmenting large-language models with chemistry tools.=E2=80=9D</a=
+> arXiv preprint arXiv:2304.05376 (2023).</p>
+<p>[18] Boiko et al. <a href=3D"https://arxiv.org/abs/2304.05332">=E2=80=9C=
+Emergent autonomous scientific research capabilities of large language mode=
+ls.=E2=80=9D</a> arXiv preprint arXiv:2304.05332 (2023).</p>
+<p>[19] Joon Sung Park, et al. <a href=3D"https://arxiv.org/abs/2304.03442"=
+>=E2=80=9CGenerative Agents: Interactive Simulacra of Human Behavior.=E2=80=
+=9D</a> arXiv preprint arXiv:2304.03442 (2023).</p>
+<p>[20] AutoGPT. <a href=3D"https://github.com/Significant-Gravitas/Auto-GP=
+T">https://github.com/Significant-Gravitas/Auto-GPT</a></p>
+<p>[21] GPT-Engineer. <a href=3D"https://github.com/AntonOsika/gpt-engineer=
+">https://github.com/AntonOsika/gpt-engineer</a></p>
+
+
+  </div>
+
+  <footer class=3D"post-footer">
+    <ul class=3D"post-tags">
+      <li><a href=3D"https://lilianweng.github.io/tags/nlp/">Nlp</a></li>
+      <li><a href=3D"https://lilianweng.github.io/tags/language-model/">Lan=
+guage-Model</a></li>
+      <li><a href=3D"https://lilianweng.github.io/tags/agent/">Agent</a></l=
+i>
+      <li><a href=3D"https://lilianweng.github.io/tags/steerability/">Steer=
+ability</a></li>
+      <li><a href=3D"https://lilianweng.github.io/tags/prompting/">Promptin=
+g</a></li>
+    </ul>
+<nav class=3D"paginav">
+  <a class=3D"prev" href=3D"https://lilianweng.github.io/posts/2023-10-25-a=
+dv-attack-llm/">
+    <span class=3D"title">=C2=AB </span>
+    <br>
+    <span>Adversarial Attacks on LLMs</span>
+  </a>
+  <a class=3D"next" href=3D"https://lilianweng.github.io/posts/2023-03-15-p=
+rompt-engineering/">
+    <span class=3D"title"> =C2=BB</span>
+    <br>
+    <span>Prompt Engineering</span>
+  </a>
+</nav>
+
+
+<div class=3D"share-buttons">
+    <a target=3D"_blank" rel=3D"noopener noreferrer" aria-label=3D"share LL=
+M Powered Autonomous Agents on twitter" href=3D"https://twitter.com/intent/=
+tweet/?text=3DLLM%20Powered%20Autonomous%20Agents&amp;url=3Dhttps%3a%2f%2fl=
+ilianweng.github.io%2fposts%2f2023-06-23-agent%2f&amp;hashtags=3Dnlp%2clang=
+uage-model%2cagent%2csteerability%2cprompting">
+        <svg version=3D"1.1" viewBox=3D"0 0 512 512" xml:space=3D"preserve"=
+>
+            <path d=3D"M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386=
+.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28=
+.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.=
+892,0Zm-253.927,424.544c135.939,0 210.268,-112.643 210.268,-210.268c0,-3.21=
+8 0,-6.437 -0.153,-9.502c14.406,-10.421 26.973,-23.448 36.935,-38.314c-13.1=
+8,5.824 -27.433,9.809 -42.452,11.648c15.326,-9.196 26.973,-23.602 32.49,-40=
+.92c-14.252,8.429 -30.038,14.56 -46.896,17.931c-13.487,-14.406 -32.644,-23.=
+295 -53.946,-23.295c-40.767,0 -73.87,33.104 -73.87,73.87c0,5.824 0.613,11.4=
+94 1.992,16.858c-61.456,-3.065 -115.862,-32.49 -152.337,-77.241c-6.284,10.8=
+81 -9.962,23.601 -9.962,37.088c0,25.594 13.027,48.276 32.95,61.456c-12.107,=
+-0.307 -23.448,-3.678 -33.41,-9.196l0,0.92c0,35.862 25.441,65.594 59.311,72=
+.49c-6.13,1.686 -12.72,2.606 -19.464,2.606c-4.751,0 -9.348,-0.46 -13.946,-1=
+.38c9.349,29.426 36.628,50.728 68.965,51.341c-25.287,19.771 -57.164,31.571 =
+-91.8,31.571c-5.977,0 -11.801,-0.306 -17.625,-1.073c32.337,21.15 71.264,33.=
+41 112.95,33.41Z"></path>
+        </svg>
+    </a>
+    <a target=3D"_blank" rel=3D"noopener noreferrer" aria-label=3D"share LL=
+M Powered Autonomous Agents on linkedin" href=3D"https://www.linkedin.com/s=
+hareArticle?mini=3Dtrue&amp;url=3Dhttps%3a%2f%2flilianweng.github.io%2fpost=
+s%2f2023-06-23-agent%2f&amp;title=3DLLM%20Powered%20Autonomous%20Agents&amp=
+;summary=3DLLM%20Powered%20Autonomous%20Agents&amp;source=3Dhttps%3a%2f%2fl=
+ilianweng.github.io%2fposts%2f2023-06-23-agent%2f">
+        <svg version=3D"1.1" viewBox=3D"0 0 512 512" xml:space=3D"preserve"=
+>
+            <path d=3D"M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386=
+.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28=
+.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.=
+892,0Zm-288.985,423.278l0,-225.717l-75.04,0l0,225.717l75.04,0Zm270.539,0l0,=
+-129.439c0,-69.333 -37.018,-101.586 -86.381,-101.586c-39.804,0 -57.634,21.8=
+91 -67.617,37.266l0,-31.958l-75.021,0c0.995,21.181 0,225.717 0,225.717l75.0=
+2,0l0,-126.056c0,-6.748 0.486,-13.492 2.474,-18.315c5.414,-13.475 17.767,-2=
+7.434 38.494,-27.434c27.135,0 38.007,20.707 38.007,51.037l0,120.768l75.024,=
+0Zm-307.552,-334.556c-25.674,0 -42.448,16.879 -42.448,39.002c0,21.658 16.26=
+4,39.002 41.455,39.002l0.484,0c26.165,0 42.452,-17.344 42.452,-39.002c-0.48=
+5,-22.092 -16.241,-38.954 -41.943,-39.002Z"></path>
+        </svg>
+    </a>
+    <a target=3D"_blank" rel=3D"noopener noreferrer" aria-label=3D"share LL=
+M Powered Autonomous Agents on reddit" href=3D"https://reddit.com/submit?ur=
+l=3Dhttps%3a%2f%2flilianweng.github.io%2fposts%2f2023-06-23-agent%2f&amp;ti=
+tle=3DLLM%20Powered%20Autonomous%20Agents">
+        <svg version=3D"1.1" viewBox=3D"0 0 512 512" xml:space=3D"preserve"=
+>
+            <path d=3D"M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386=
+.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28=
+.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.=
+892,0Zm-3.446,265.638c0,-22.964 -18.616,-41.58 -41.58,-41.58c-11.211,0 -21.=
+361,4.457 -28.841,11.666c-28.424,-20.508 -67.586,-33.757 -111.204,-35.278l1=
+8.941,-89.121l61.884,13.157c0.756,15.734 13.642,28.29 29.56,28.29c16.407,0 =
+29.706,-13.299 29.706,-29.701c0,-16.403 -13.299,-29.702 -29.706,-29.702c-11=
+.666,0 -21.657,6.792 -26.515,16.578l-69.105,-14.69c-1.922,-0.418 -3.939,-0.=
+042 -5.585,1.036c-1.658,1.073 -2.811,2.761 -3.224,4.686l-21.152,99.438c-44.=
+258,1.228 -84.046,14.494 -112.837,35.232c-7.468,-7.164 -17.589,-11.591 -28.=
+757,-11.591c-22.965,0 -41.585,18.616 -41.585,41.58c0,16.896 10.095,31.41 24=
+.568,37.918c-0.639,4.135 -0.99,8.328 -0.99,12.576c0,63.977 74.469,115.836 1=
+66.33,115.836c91.861,0 166.334,-51.859 166.334,-115.836c0,-4.218 -0.347,-8.=
+387 -0.977,-12.493c14.564,-6.47 24.735,-21.034 24.735,-38.001Zm-119.474,108=
+.193c-20.27,20.241 -59.115,21.816 -70.534,21.816c-11.428,0 -50.277,-1.575 -=
+70.522,-21.82c-3.007,-3.008 -3.007,-7.882 0,-10.889c3.003,-2.999 7.882,-3.0=
+03 10.885,0c12.777,12.781 40.11,17.317 59.637,17.317c19.522,0 46.86,-4.536 =
+59.657,-17.321c3.016,-2.999 7.886,-2.995 10.885,0.008c3.008,3.011 3.003,7.8=
+82 -0.008,10.889Zm-5.23,-48.781c-16.373,0 -29.701,-13.324 -29.701,-29.698c0=
+,-16.381 13.328,-29.714 29.701,-29.714c16.378,0 29.706,13.333 29.706,29.714=
+c0,16.374 -13.328,29.698 -29.706,29.698Zm-160.386,-29.702c0,-16.381 13.328,=
+-29.71 29.714,-29.71c16.369,0 29.689,13.329 29.689,29.71c0,16.373 -13.32,29=
+.693 -29.689,29.693c-16.386,0 -29.714,-13.32 -29.714,-29.693Z"></path>
+        </svg>
+    </a>
+    <a target=3D"_blank" rel=3D"noopener noreferrer" aria-label=3D"share LL=
+M Powered Autonomous Agents on facebook" href=3D"https://facebook.com/share=
+r/sharer.php?u=3Dhttps%3a%2f%2flilianweng.github.io%2fposts%2f2023-06-23-ag=
+ent%2f">
+        <svg version=3D"1.1" viewBox=3D"0 0 512 512" xml:space=3D"preserve"=
+>
+            <path d=3D"M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386=
+.892c0,34.524 -28.03,62.554 -62.554,62.554l-106.468,0l0,-192.915l66.6,0l12.=
+672,-82.621l-79.272,0l0,-53.617c0,-22.603 11.073,-44.636 46.58,-44.636l36.0=
+42,0l0,-70.34c0,0 -32.71,-5.582 -63.982,-5.582c-65.288,0 -107.96,39.569 -10=
+7.96,111.204l0,62.971l-72.573,0l0,82.621l72.573,0l0,192.915l-191.104,0c-34.=
+524,0 -62.554,-28.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62=
+.554,-62.554l386.892,0Z"></path>
+        </svg>
+    </a>
+    <a target=3D"_blank" rel=3D"noopener noreferrer" aria-label=3D"share LL=
+M Powered Autonomous Agents on whatsapp" href=3D"https://api.whatsapp.com/s=
+end?text=3DLLM%20Powered%20Autonomous%20Agents%20-%20https%3a%2f%2flilianwe=
+ng.github.io%2fposts%2f2023-06-23-agent%2f">
+        <svg version=3D"1.1" viewBox=3D"0 0 512 512" xml:space=3D"preserve"=
+>
+            <path d=3D"M449.446,0c34.525,0 62.554,28.03 62.554,62.554l0,386=
+.892c0,34.524 -28.03,62.554 -62.554,62.554l-386.892,0c-34.524,0 -62.554,-28=
+.03 -62.554,-62.554l0,-386.892c0,-34.524 28.029,-62.554 62.554,-62.554l386.=
+892,0Zm-58.673,127.703c-33.842,-33.881 -78.847,-52.548 -126.798,-52.568c-98=
+.799,0 -179.21,80.405 -179.249,179.234c-0.013,31.593 8.241,62.428 23.927,89=
+.612l-25.429,92.884l95.021,-24.925c26.181,14.28 55.659,21.807 85.658,21.816=
+l0.074,0c98.789,0 179.206,-80.413 179.247,-179.243c0.018,-47.895 -18.61,-92=
+.93 -52.451,-126.81Zm-126.797,275.782l-0.06,0c-26.734,-0.01 -52.954,-7.193 =
+-75.828,-20.767l-5.441,-3.229l-56.386,14.792l15.05,-54.977l-3.542,-5.637c-1=
+4.913,-23.72 -22.791,-51.136 -22.779,-79.287c0.033,-82.142 66.867,-148.971 =
+149.046,-148.971c39.793,0.014 77.199,15.531 105.329,43.692c28.128,28.16 43.=
+609,65.592 43.594,105.4c-0.034,82.149 -66.866,148.983 -148.983,148.984Zm81.=
+721,-111.581c-4.479,-2.242 -26.499,-13.075 -30.604,-14.571c-4.105,-1.495 -7=
+.091,-2.241 -10.077,2.241c-2.986,4.483 -11.569,14.572 -14.182,17.562c-2.612=
+,2.988 -5.225,3.364 -9.703,1.12c-4.479,-2.241 -18.91,-6.97 -36.017,-22.23c-=
+13.314,-11.876 -22.304,-26.542 -24.916,-31.026c-2.612,-4.484 -0.279,-6.908 =
+1.963,-9.14c2.016,-2.007 4.48,-5.232 6.719,-7.847c2.24,-2.615 2.986,-4.484 =
+4.479,-7.472c1.493,-2.99 0.747,-5.604 -0.374,-7.846c-1.119,-2.241 -10.077,-=
+24.288 -13.809,-33.256c-3.635,-8.733 -7.327,-7.55 -10.077,-7.688c-2.609,-0.=
+13 -5.598,-0.158 -8.583,-0.158c-2.986,0 -7.839,1.121 -11.944,5.604c-4.105,4=
+.484 -15.675,15.32 -15.675,37.364c0,22.046 16.048,43.342 18.287,46.332c2.24=
+,2.99 31.582,48.227 76.511,67.627c10.685,4.615 19.028,7.371 25.533,9.434c10=
+.728,3.41 20.492,2.929 28.209,1.775c8.605,-1.285 26.499,-10.833 30.231,-21.=
+295c3.732,-10.464 3.732,-19.431 2.612,-21.298c-1.119,-1.869 -4.105,-2.99 -8=
+.583,-5.232Z"></path>
+        </svg>
+    </a>
+    <a target=3D"_blank" rel=3D"noopener noreferrer" aria-label=3D"share LL=
+M Powered Autonomous Agents on telegram" href=3D"https://telegram.me/share/=
+url?text=3DLLM%20Powered%20Autonomous%20Agents&amp;url=3Dhttps%3a%2f%2flili=
+anweng.github.io%2fposts%2f2023-06-23-agent%2f">
+        <svg version=3D"1.1" xml:space=3D"preserve" viewBox=3D"2 2 28 28">
+            <path d=3D"M26.49,29.86H5.5a3.37,3.37,0,0,1-2.47-1,3.35,3.35,0,=
+0,1-1-2.47V5.48A3.36,3.36,0,0,1,3,3,3.37,3.37,0,0,1,5.5,2h21A3.38,3.38,0,0,=
+1,29,3a3.36,3.36,0,0,1,1,2.46V26.37a3.35,3.35,0,0,1-1,2.47A3.38,3.38,0,0,1,=
+26.49,29.86Zm-5.38-6.71a.79.79,0,0,0,.85-.66L24.73,9.24a.55.55,0,0,0-.18-.4=
+6.62.62,0,0,0-.41-.17q-.08,0-16.53,6.11a.59.59,0,0,0-.41.59.57.57,0,0,0,.43=
+.52l4,1.24,1.61,4.83a.62.62,0,0,0,.63.43.56.56,0,0,0,.4-.17L16.54,20l4.09,3=
+A.9.9,0,0,0,21.11,23.15ZM13.8,20.71l-1.21-4q8.72-5.55,8.78-5.55c.15,0,.23,0=
+,.23.16a.18.18,0,0,1,0,.06s-2.51,2.3-7.52,6.8Z"></path>
+        </svg>
+    </a>
+</div>
+
+  </footer>
+</article>
+    </main>
+   =20
+<footer class=3D"footer">
+    <span>=C2=A9 2025 <a href=3D"https://lilianweng.github.io/">Lil'Log</a>=
+</span>
+    <span>
+        Powered by
+        <a href=3D"https://gohugo.io/" rel=3D"noopener noreferrer" target=
+=3D"_blank">Hugo</a> &amp;
+        <a href=3D"https://git.io/hugopapermod" rel=3D"noopener" target=3D"=
+_blank">PaperMod</a>
+    </span>
+</footer>
+<a href=3D"https://lilianweng.github.io/posts/2023-06-23-agent/#top" aria-l=
+abel=3D"go to top" title=3D"Go to Top (Alt + G)" class=3D"top-link" id=3D"t=
+op-link" accesskey=3D"g" style=3D"visibility: hidden; opacity: 0;">
+    <svg xmlns=3D"http://www.w3.org/2000/svg" viewBox=3D"0 0 12 6" fill=3D"=
+currentColor">
+        <path d=3D"M12 6H0l6-6z"></path>
+    </svg>
+</a>
+
+
+
+
+
+
+
+
+</body></html>
+------MultipartBoundary--m7LkKFW9WTRn9nVBdmDNXAp8IfVUNolvnRaWX5GPMt----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://lilianweng.github.io/assets/css/stylesheet.min.67a6fb6e33089cb29e856bcc95d7aa39f70049a42b123105531265a0d9f1258b.css
+
+@charset "utf-8";
+
+:root { --gap: 24px; --content-gap: 20px; --nav-width: 1024px; --main-width=
+: 720px; --header-height: 60px; --footer-height: 60px; --radius: 8px; --the=
+me: rgb(255, 255, 255); --entry: rgb(255, 255, 255); --primary: rgb(30, 30,=
+ 30); --secondary: rgb(108, 108, 108); --tertiary: rgb(214, 214, 214); --co=
+ntent: rgb(31, 31, 31); --hljs-bg: rgb(28, 29, 33); --code-bg: rgb(245, 245=
+, 245); --border: rgb(238, 238, 238); }
+
+.dark { --theme: rgb(29, 30, 32); --entry: rgb(46, 46, 51); --primary: rgb(=
+218, 218, 219); --secondary: rgb(155, 156, 157); --tertiary: rgb(65, 66, 68=
+); --content: rgb(196, 196, 197); --hljs-bg: rgb(46, 46, 51); --code-bg: rg=
+b(55, 56, 62); --border: rgb(51, 51, 51); }
+
+.list { background: var(--code-bg); }
+
+.dark.list { background: var(--theme); }
+
+*, ::after, ::before { box-sizing: border-box; }
+
+html { -webkit-tap-highlight-color: transparent; overflow-y: scroll; }
+
+a, button, body, h1, h2, h3, h4, h5, h6 { color: var(--primary); }
+
+body { font-family: -apple-system, BlinkMacSystemFont, "segoe ui", Roboto, =
+Oxygen, Ubuntu, Cantarell, "open sans", "helvetica neue", sans-serif; font-=
+size: 16px; line-height: 1.6; word-break: break-word; background: var(--the=
+me); }
+
+article, aside, figcaption, figure, footer, header, hgroup, main, nav, sect=
+ion, table { display: block; }
+
+h1, h2, h3, h4, h5, h6 { line-height: 1.2; }
+
+h1, h2, h3, h4, h5, h6, p { margin-top: 0px; margin-bottom: 0px; }
+
+ul { padding: 0px; }
+
+a { text-decoration: none; }
+
+body, figure, ul { margin: 0px; }
+
+table { width: 100%; border-collapse: collapse; border-spacing: 0px; overfl=
+ow-x: auto; word-break: keep-all; }
+
+button, input, textarea { padding: 0px; font: inherit; background: 0px 0px;=
+ border: 0px; }
+
+input, textarea { outline: 0px; }
+
+button, input[type=3D"button"], input[type=3D"submit"] { cursor: pointer; }
+
+input:-webkit-autofill, textarea:-webkit-autofill { box-shadow: 0 0 0 50px =
+var(--theme)inset; }
+
+img { display: block; max-width: 100%; }
+
+::-webkit-scrollbar-track { background: 0px 0px; }
+
+.list:not(.dark)::-webkit-scrollbar-track { background: var(--code-bg); }
+
+::-webkit-scrollbar-thumb { background: var(--tertiary); border: 5px solid =
+var(--theme); border-radius: var(--radius); }
+
+.list:not(.dark)::-webkit-scrollbar-thumb { border: 5px solid var(--code-bg=
+); }
+
+::-webkit-scrollbar-thumb:hover { background: var(--secondary); }
+
+.not-found { position: absolute; left: 0px; right: 0px; display: flex; alig=
+n-items: center; justify-content: center; height: 80%; font-size: 160px; fo=
+nt-weight: 700; }
+
+.archive-posts { width: 100%; font-size: 16px; }
+
+.archive-year { margin-top: 40px; }
+
+.archive-year:not(:last-of-type) { border-bottom: 2px solid var(--border); =
+}
+
+.archive-month { display: flex; align-items: flex-start; padding: 10px 0px;=
+ }
+
+.archive-month-header { margin: 25px 0px; width: 200px; }
+
+.archive-month:not(:last-of-type) { border-bottom: 1px solid var(--border);=
+ }
+
+.archive-entry { position: relative; padding: 5px; margin: 10px 0px; }
+
+.archive-entry-title { margin: 5px 0px; font-weight: 400; }
+
+.archive-count, .archive-meta { color: var(--secondary); font-size: 14px; }
+
+.footer, .top-link { font-size: 12px; color: var(--secondary); }
+
+.footer { max-width: calc(var(--main-width) + var(--gap) * 2); margin: auto=
+; padding: calc((var(--footer-height) - var(--gap))/2)var(--gap); text-alig=
+n: center; line-height: 24px; }
+
+.footer span { margin-inline: 1px; }
+
+.footer span:last-child { white-space: nowrap; }
+
+.footer a { color: inherit; border-bottom: 1px solid var(--secondary); }
+
+.footer a:hover { border-bottom: 1px solid var(--primary); }
+
+.top-link { visibility: hidden; position: fixed; bottom: 60px; right: 30px;=
+ z-index: 99; background: var(--tertiary); width: 42px; height: 42px; paddi=
+ng: 12px; border-radius: 64px; transition: visibility 0.5s, opacity 0.8s li=
+near; }
+
+.top-link, .top-link svg { filter: drop-shadow(0 0 0 var(--theme)); }
+
+.footer a:hover, .top-link:hover { color: var(--primary); }
+
+.top-link:focus, #theme-toggle:focus { outline: 0px; }
+
+.nav { display: flex; flex-wrap: wrap; justify-content: flex-end; max-width=
+: calc(var(--nav-width) + var(--gap) * 2); margin-inline: auto; line-height=
+: var(--header-height); }
+
+.nav a { display: block; }
+
+.logo, #menu { display: flex; margin: auto var(--gap); }
+
+.logo { flex-wrap: inherit; position: fixed; left: calc((100vw - var(--main=
+-width) - var(--gap) * 2)/2 - 138px); }
+
+.logo a { font-size: 24px; font-weight: 700; }
+
+.logo a img { display: inline; vertical-align: middle; pointer-events: none=
+; transform: translate(0px, -10%); border-radius: 6px; margin-inline-end: 8=
+px; }
+
+#theme-toggle svg { height: 18px; }
+
+button#theme-toggle { font-size: 26px; margin: auto 4px; }
+
+body.dark #moon { vertical-align: middle; display: none; }
+
+body:not(.dark) #sun { display: none; }
+
+#menu { list-style: none; word-break: keep-all; overflow-x: auto; white-spa=
+ce: nowrap; }
+
+#menu li + li { margin-inline-start: var(--gap); }
+
+#menu a { font-size: 16px; }
+
+#menu .active { font-weight: 500; border-bottom: 2px solid; }
+
+.lang-switch li, .lang-switch ul, .logo-switches { display: inline-flex; ma=
+rgin: auto 4px; }
+
+.lang-switch { display: flex; flex-wrap: inherit; }
+
+.lang-switch a { margin: auto 3px; font-size: 16px; font-weight: 500; }
+
+.logo-switches { flex-wrap: inherit; }
+
+div.has-jax { }
+
+span.update { color: rgb(40, 110, 224); }
+
+span.update a { color: rgb(40, 110, 224); }
+
+.main { position: relative; min-height: calc(100vh - var(--header-height) -=
+ var(--footer-height)); max-width: calc(var(--main-width) + var(--gap) * 2)=
+; margin: auto; padding: var(--gap); }
+
+.page-header h1 { font-size: 40px; }
+
+.pagination { display: flex; }
+
+.pagination a { color: var(--theme); font-size: 13px; line-height: 36px; ba=
+ckground: var(--primary); border-radius: calc(18px); padding: 0px 16px; }
+
+.pagination .next { margin-inline-start: auto; }
+
+.social-icons { padding: 12px 0px; }
+
+.social-icons a:not(:last-of-type) { margin-inline-end: 12px; }
+
+.social-icons a svg { height: 26px; width: 26px; }
+
+div.prompt { font-family: courier; font-size: 13px; color: rgb(68, 68, 68);=
+ background: rgb(238, 238, 238); padding: 20px; margin: 0px 15px 25px; }
+
+code { direction: ltr; }
+
+div.highlight, pre { position: relative; }
+
+.copy-code { display: none; position: absolute; top: 4px; right: 4px; color=
+: rgba(255, 255, 255, 0.8); background: rgba(78, 78, 78, 0.8); border-radiu=
+s: var(--radius); padding: 0px 5px; font-size: 14px; user-select: none; }
+
+div.highlight:hover .copy-code, pre:hover .copy-code { display: block; }
+
+.first-entry { position: relative; display: flex; flex-direction: column; j=
+ustify-content: center; margin: var(--gap)0 calc(var(--gap) * 2); }
+
+.first-entry .entry-header { overflow: hidden; display: -webkit-box; -webki=
+t-box-orient: vertical; -webkit-line-clamp: 3; }
+
+.first-entry .entry-header h1 { font-size: 34px; line-height: 1.3; }
+
+.first-entry .entry-content { margin: 14px 0px; font-size: 16px; -webkit-li=
+ne-clamp: 3; }
+
+.first-entry .entry-footer { font-size: 14px; }
+
+.home-info .entry-content { -webkit-line-clamp: unset; }
+
+.post-entry { position: relative; margin-bottom: var(--gap); padding: var(-=
+-gap); background: var(--entry); border-radius: var(--radius); transition: =
+transform 0.1s; border: 1px solid var(--border); }
+
+.post-entry:active { transform: scale(0.96); }
+
+.tag-entry .entry-cover { display: none; }
+
+.entry-header h2 { font-size: 24px; line-height: 1.3; }
+
+.entry-content { margin: 8px 0px; color: var(--secondary); font-size: 14px;=
+ line-height: 1.6; overflow: hidden; display: -webkit-box; -webkit-box-orie=
+nt: vertical; -webkit-line-clamp: 2; }
+
+.entry-footer { color: var(--secondary); font-size: 13px; }
+
+.entry-link { position: absolute; inset: 0px; }
+
+.entry-cover, .entry-isdraft { font-size: 14px; color: var(--secondary); }
+
+.entry-cover { margin-bottom: var(--gap); text-align: center; }
+
+.entry-cover img { border-radius: var(--radius); pointer-events: none; widt=
+h: 100%; height: auto; }
+
+.entry-cover a { color: var(--secondary); box-shadow: 0 1px 0 var(--primary=
+); }
+
+.page-header, .post-header { margin: 24px auto var(--content-gap); }
+
+.post-title { margin-bottom: 2px; font-size: 36px; }
+
+.post-description { margin-top: 10px; margin-bottom: 5px; }
+
+.post-meta, .breadcrumbs { color: var(--secondary); font-size: 14px; displa=
+y: flex; flex-wrap: wrap; }
+
+.post-meta .i18n_list li { display: inline-flex; list-style: none; margin: =
+auto 3px; box-shadow: 0 1px 0 var(--secondary); }
+
+.breadcrumbs a { font-size: 16px; }
+
+.post-content { color: var(--content); }
+
+.post-content img.center { max-width: 100%; display: block; margin: 0px aut=
+o; }
+
+.post-content figcaption, figcaption a { text-align: center; width: 75%; ma=
+rgin: 10px auto 35px; line-height: 1.35; color: rgb(136, 136, 136); font-si=
+ze: 15px; }
+
+.post-content h3, .post-content h4, .post-content h5, .post-content h6 { ma=
+rgin: 24px 0px 16px; }
+
+.post-content h1 { margin: 28px auto 20px; font-size: 28px; }
+
+.post-content h2 { margin: 24px auto 16px; font-size: 24px; }
+
+.post-content h3 { font-size: 18px; }
+
+.post-content h4 { font-size: 16px; }
+
+.post-content h5 { font-size: 14px; }
+
+.post-content h6 { font-size: 12px; }
+
+.post-content a, .toc a:hover { box-shadow: 0px 1px; }
+
+.post-content a code { margin: auto 0px; border-radius: 0px; box-shadow: 0 =
+-1px 0 var(--primary)inset; }
+
+.post-content del { text-decoration: none; background: linear-gradient(to r=
+ight,var(--primary) 100%,transparent 0)0/1px 1px repeat-x; }
+
+.post-content dl, .post-content ol, .post-content p, .post-content figure, =
+.post-content ul { margin-bottom: var(--content-gap); }
+
+.post-content ol, .post-content ul { padding-inline-start: 20px; }
+
+.post-content li { margin-top: 5px; }
+
+.post-content li p { margin-bottom: 0px; }
+
+.post-content dl { display: flex; flex-wrap: wrap; margin: 0px; }
+
+.post-content dt { width: 25%; font-weight: 700; }
+
+.post-content dd { width: 75%; margin-inline-start: 0px; padding-inline-sta=
+rt: 10px; }
+
+.post-content dd ~ dd, .post-content dt ~ dt { margin-top: 10px; }
+
+.post-content table { margin-bottom: 32px; }
+
+.post-content table th, .post-content table:not(.highlighttable, .highlight=
+ table, .gist .highlight) td { min-width: 80px; padding: 6px 4px; line-heig=
+ht: 1.25; border-bottom: 1px solid var(--border); }
+
+.post-content table th { font-size: 14px; text-align: start; }
+
+.post-content table:not(.highlighttable) td code:only-child { margin: auto =
+0px; }
+
+.post-content .highlight table { border-radius: var(--radius); }
+
+.post-content .highlight:not(table), .post-content pre { margin: 10px auto;=
+ border-radius: var(--radius); background: var(--hljs-bg) !important; }
+
+.post-content li > .highlight { margin-inline-end: 0px; }
+
+.post-content ul pre { margin-inline-start: calc(var(--gap) * -2); }
+
+.post-content .highlight pre { margin: 0px; }
+
+.post-content .highlighttable { table-layout: fixed; }
+
+.post-content .highlighttable td:first-child { width: 40px; }
+
+.post-content .highlighttable td .linenodiv { padding-inline-end: 0px !impo=
+rtant; }
+
+.post-content .highlighttable td .highlight, .post-content .highlighttable =
+td .linenodiv pre { margin-bottom: 0px; }
+
+.post-content .highlighttable td .highlight pre code::-webkit-scrollbar { d=
+isplay: none; }
+
+.post-content code { margin: auto 4px; padding: 4px 6px; font-size: 0.78em;=
+ line-height: 1.5; background: var(--code-bg); border-radius: 2px; }
+
+.post-content pre code { display: block; margin: auto 0px; padding: 10px; c=
+olor: rgb(213, 213, 214); background: 0px 0px; border-radius: 0px; overflow=
+-x: auto; word-break: break-all; }
+
+.post-content blockquote { margin: 20px 0px; padding: 0px 14px; border-inli=
+ne-start: 3px solid var(--primary); }
+
+.post-content hr { margin: 30px 0px; height: 2px; background: var(--tertiar=
+y); border-top: 0px; border-bottom: 0px; }
+
+.post-content iframe { max-width: 100%; }
+
+.post-content img { border-radius: 4px; margin: 1rem 0px; }
+
+.post-content img[src*=3D"#center"] { margin: 1rem auto; }
+
+.post-content figure.align-center { text-align: center; }
+
+.post-content figure > figcaption { color: var(--primary); font-size: 16px;=
+ font-weight: 700; margin: 8px 0px 16px; }
+
+.post-content figure > figcaption > p { color: var(--secondary); font-size:=
+ 14px; font-weight: 400; }
+
+.toc { margin: 0px 2px 40px; border: 1px solid var(--border); background: v=
+ar(--code-bg); border-radius: var(--radius); padding: 0.4em; font-size: 15p=
+x; }
+
+.dark .toc { background: var(--entry); }
+
+.toc details summary { cursor: zoom-in; margin-inline-start: 20px; }
+
+.toc details[open] summary { cursor: zoom-out; }
+
+.toc .details { display: inline; font-weight: 500; }
+
+.toc .inner { margin: 0px 20px; padding: 10px 20px; }
+
+.toc li ul { margin-inline-start: var(--gap); }
+
+.toc summary:focus { outline: 0px; }
+
+.post-footer { margin-top: 56px; }
+
+.post-tags li { display: inline-block; margin-inline-end: 3px; margin-botto=
+m: 5px; }
+
+.post-tags a, .share-buttons, .paginav { border-radius: var(--radius); back=
+ground: var(--code-bg); border: 1px solid var(--border); }
+
+.post-tags a { display: block; padding-inline: 14px; color: var(--secondary=
+); font-size: 14px; line-height: 34px; background: var(--code-bg); }
+
+.post-tags a:hover, .paginav a:hover { background: var(--border); }
+
+.share-buttons { margin: 14px 0px; padding-inline-start: var(--radius); dis=
+play: flex; justify-content: center; overflow-x: auto; }
+
+.share-buttons a { margin-top: 10px; }
+
+.share-buttons a:not(:last-of-type) { margin-inline-end: 12px; }
+
+.share-buttons a svg { height: 30px; width: 30px; fill: currentcolor; trans=
+ition: transform 0.1s; }
+
+.share-buttons svg:active { transform: scale(0.96); }
+
+h1:hover .anchor, h2:hover .anchor, h3:hover .anchor, h4:hover .anchor, h5:=
+hover .anchor, h6:hover .anchor { display: inline-flex; color: var(--second=
+ary); margin-inline-start: 8px; font-weight: 500; user-select: none; }
+
+.post-content :not(table) ::-webkit-scrollbar-thumb { border: 2px solid var=
+(--hljs-bg); background: rgb(113, 113, 117); }
+
+.post-content :not(table) ::-webkit-scrollbar-thumb:hover { background: rgb=
+(163, 163, 165); }
+
+.gist table::-webkit-scrollbar-thumb { border: 2px solid rgb(255, 255, 255)=
+; background: rgb(173, 173, 173); }
+
+.gist table::-webkit-scrollbar-thumb:hover { background: rgb(112, 112, 112)=
+; }
+
+.post-content table::-webkit-scrollbar-thumb { border-width: 2px; }
+
+.post-content a:hover { color: rgb(170, 170, 170); }
+
+.paginav { margin: 10px 0px; display: flex; line-height: 30px; border-radiu=
+s: var(--radius); }
+
+.paginav a { padding-inline: 14px; border-radius: var(--radius); }
+
+.paginav .title { letter-spacing: 1px; text-transform: uppercase; font-size=
+: small; color: var(--secondary); }
+
+.paginav .prev, .paginav .next { width: 50%; }
+
+.paginav span:hover:not(.title) { box-shadow: 0px 1px; }
+
+.paginav .next { margin-inline-start: auto; text-align: right; }
+
+[dir=3D"rtl"] .paginav .next { text-align: left; }
+
+.buttons, .main .profile { display: flex; justify-content: center; }
+
+.main .profile { align-items: center; min-height: calc(100vh - var(--header=
+-height) - var(--footer-height) - (var(--gap) * 2)); text-align: center; }
+
+.profile .profile_inner h1 { padding: 12px 0px; }
+
+.profile img { display: inline-table; border-radius: 50%; pointer-events: n=
+one; }
+
+.buttons { flex-wrap: wrap; max-width: 400px; margin: 0px auto; }
+
+.button { background: var(--tertiary); border-radius: var(--radius); margin=
+: 8px; padding: 6px; transition: transform 0.1s; }
+
+.button-inner { padding: 0px 8px; }
+
+.button:active { transform: scale(0.96); }
+
+#searchbox input { padding: 4px 10px; width: 100%; color: var(--primary); f=
+ont-weight: 700; border: 2px solid var(--tertiary); border-radius: var(--ra=
+dius); }
+
+#searchbox input:focus { border-color: var(--secondary); }
+
+#searchResults li { list-style: none; border-radius: var(--radius); padding=
+: 10px; margin: 10px 0px; position: relative; font-weight: 500; }
+
+#searchResults { margin: 10px 0px; width: 100%; }
+
+#searchResults li:active { transition: transform 0.1s; transform: scale(0.9=
+8); }
+
+#searchResults a { position: absolute; width: 100%; height: 100%; top: 0px;=
+ left: 0px; outline: none; }
+
+#searchResults .focus { transform: scale(0.98); border: 2px solid var(--ter=
+tiary); }
+
+.terms-tags li { display: inline-block; margin: 10px; font-weight: 500; }
+
+.terms-tags a { display: block; padding: 3px 10px; background: var(--tertia=
+ry); border-radius: 6px; transition: transform 0.1s; }
+
+.terms-tags a:active { background: var(--tertiary); transform: scale(0.96);=
+ }
+
+.hljs-comment, .hljs-quote { color: rgb(182, 177, 139); }
+
+.hljs-deletion, .hljs-name, .hljs-regexp, .hljs-selector-class, .hljs-selec=
+tor-id, .hljs-tag, .hljs-template-variable, .hljs-variable { color: rgb(235=
+, 60, 84); }
+
+.hljs-built_in, .hljs-builtin-name, .hljs-link, .hljs-literal, .hljs-meta, =
+.hljs-number, .hljs-params, .hljs-type { color: rgb(231, 206, 86); }
+
+.hljs-attribute { color: rgb(238, 124, 43); }
+
+.hljs-addition, .hljs-bullet, .hljs-string, .hljs-symbol { color: rgb(79, 1=
+80, 215); }
+
+.hljs-section, .hljs-title { color: rgb(120, 187, 101); }
+
+.hljs-keyword, .hljs-selector-tag { color: rgb(180, 94, 164); }
+
+.hljs { display: block; overflow-x: auto; background: rgb(28, 29, 33); colo=
+r: rgb(192, 197, 206); padding: 0.5em; }
+
+.hljs-emphasis { font-style: italic; }
+
+.hljs-strong { font-weight: 700; }
+
+@media screen and (max-width: 768px) {
+  :root { --gap: 14px; }
+  .profile img { transform: scale(0.85); }
+  .first-entry { min-height: 260px; }
+  .archive-month { flex-direction: column; }
+  .archive-year { margin-top: 20px; }
+  .footer { padding: calc((var(--footer-height) - var(--gap) - 10px)/2)var(=
+--gap); }
+}
+
+@media screen and (min-width: 768px) {
+  ::-webkit-scrollbar { width: 19px; height: 11px; }
+}
+
+@media screen and (max-width: 900px) {
+  .list .top-link { transform: translateY(-5rem); }
+}
+
+@media (prefers-reduced-motion) {
+  .terms-tags a:active, .button:active, .share-buttons svg:active, .post-en=
+try:active, .top-link, #searchResults .focus, #searchResults li:active { tr=
+ansform: none; }
+}
+------MultipartBoundary--m7LkKFW9WTRn9nVBdmDNXAp8IfVUNolvnRaWX5GPMt------
