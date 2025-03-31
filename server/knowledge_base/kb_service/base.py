@@ -1,6 +1,6 @@
 import operator
 from abc import ABC, abstractmethod
-from document_loaders.pdfloader import UnstructuredLightPipeline
+# from document_loaders.pdfloader import UnstructuredLightPipeline
 import os
 from pathlib import Path
 import numpy as np

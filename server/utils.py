@@ -316,7 +316,7 @@ class BaseResponse(BaseModel):
     data: Any = pydantic.Field(None, description="API data")
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "status": 200,
                 "msg": "success",
@@ -380,7 +380,7 @@ class ListResponse(BaseResponse):
     data: List[str] = pydantic.Field(..., description="List of names")
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "code": 200,
                 "msg": "success",

@@ -10,11 +10,12 @@ STREAM = True
 # 默认启动的模型，如果使用的是glm3-6b，请替换模型名称
 # LLM_MODELS = ["glm4-9b-chat", "zhipu-api"]
 # LLM_MODELS = ["chatglm3-6b", "zhipu-api"]
-LLM_MODELS = ["DeepSeek-R1-Distill-Llama-8B",]
-
+LLM_MODELS = ["DeepSeek-R1-Distill-Llama-8B", ]
 
 # 选用的 Embedding 名称, 不能远程吗？
-EMBEDDING_MODEL = "bge-large-zh-v1.5"
+# EMBEDDING_MODEL = "bge-large-zh-v1.5"
+# 使用在线模型
+EMBEDDING_MODEL = 'zhipu-embedding'
 # Embedding 模型运行设备。设为 "auto" 会自动检测(会有警告)，也可手动设定为 "cuda","mps","cpu","xpu" 其中之一。
 EMBEDDING_DEVICE = "auto"
 
@@ -66,6 +67,12 @@ ONLINE_LLM_MODEL = {
     #     "provider": "ChatGLMWorker",
     # },
 
+    # 智谱清言的在线API服务
+    "zhipu-embedding": {
+        "api_key": "53c8378d900c4f31bdbe6d564b33c0f8.Ta4Z1YRszdFJfhL3",
+        "version": "embedding-3",
+    },
+
     # OpenAI GPT模型的在线服务
     # "openai-api": {
     #     "model_name": "gpt-4",
@@ -81,7 +88,12 @@ ONLINE_LLM_MODEL = {
     },
 
     # 可扩展其他的模型在线模型
-
+    "deepseek-chat": {
+        "model_name": "deepseek-chat",
+        "api_base_url": "https://api.deepseek.com",
+        "api_key": "sk-aae01ef2678e4200a51c8a3f8b9c9313",
+        "openai_proxy": "",
+    },
 }
 
 SUPPORT_AGENT_MODEL = [
@@ -92,6 +104,7 @@ SUPPORT_AGENT_MODEL = [
     # "chatglm3-6b",
     # "internlm2-chat-20b",
     # "Orion-14B-Chat-Plugin",
+    'deepseek-chat'
 ]
 
 # 搜索引擎匹配结题数量

@@ -60,7 +60,7 @@ def get_db():
     """
     db = SessionLocal()
     try:
-        yield db
+        return db
     finally:
         db.close()
 
@@ -69,7 +69,7 @@ def save_message(session_id: str, role: str, content: str):
     """
     定义一个函数将各个消息保存到数据库中。该函数检查会话是否存在；如果没有，它就会创建一个。然后它将消息保存到相应的会话中。
     """
-    db = next(get_db())
+    db = get_db()
     try:
         # Check if the session already exists
         session = db.query(Session).filter(Session.session_id == session_id).first()
@@ -93,7 +93,7 @@ def load_session_history(session_id: str) -> BaseChatMessageHistory:
     """
     定义一个函数来从数据库加载聊天历史记录。此函数检索与给定会话 ID 关联的所有消息并重建聊天历史记录。
     """
-    db = next(get_db())
+    db = get_db()
     chat_history = ChatMessageHistory()
     try:
         # Retrieve the session

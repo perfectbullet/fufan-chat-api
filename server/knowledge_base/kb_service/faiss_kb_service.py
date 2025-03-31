@@ -237,7 +237,7 @@ async def main():
         await add_kb_to_db(kb_name="test",
                            kb_info="test",
                            vs_type="faiss",
-                           embed_model="bge-large-zh-v1.5",
+                           embed_model="zhipu-embedding",
                            user_id="admin")
 
     # 调用 add_doc 方法添加一个名为 "README.md" 的文桗，确保使用 await

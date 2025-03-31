@@ -6,6 +6,12 @@ hostname = '127.0.0.1'
 database_name = 'fufanapi'
 password = "snowball950123"
 
+# 阿里云
+# username = 'root'
+# hostname = '8.137.52.106'
+# database_name = 'fufanapi'
+# password = "123456"
+
 SQLALCHEMY_DATABASE_URI = f"mysql+asyncmy://{username}:{password}@{hostname}/{database_name}?charset=utf8mb4"
 
 # 默认使用的知识库

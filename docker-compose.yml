@@ -7,9 +7,12 @@ services:  #  定义要使用的容器镜像的部署单元。
     environment:
       MYSQL_ROOT_PASSWORD: snowball950123
       MYSQL_DATABASE: fufanapi
+      MYSQL_CHARSET: utf8mb4
+      MYSQL_COLLATION: utf8mb4_unicode_ci
     ports:
       - "3306:3306"
-
+    volumes:
+      - mysql_data:/var/lib/mysql
 ##  fufan_chat_api:   # 开发的实际项目
 ##    build: .
 ##    image: fufan_chat_api:v1.0
@@ -36,3 +39,5 @@ services:  #  定义要使用的容器镜像的部署单元。
 #      - NVIDIA_VISIBLE_DEVICES=all
 #      - MYSQL_HOST=mysql    # 使用服务名作为 host，Docker 内部 DNS 解析
 #      - MYSQL_PORT=3306
+volumes:
+  mysql_data:
