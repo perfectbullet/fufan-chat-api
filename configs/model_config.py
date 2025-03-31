@@ -10,8 +10,7 @@ STREAM = True
 # 默认启动的模型，如果使用的是glm3-6b，请替换模型名称
 # LLM_MODELS = ["glm4-9b-chat", "zhipu-api"]
 # LLM_MODELS = ["chatglm3-6b", "zhipu-api"]
-LLM_MODELS = ["DeepSeek-R1-Distill-Llama-8B",]
-
+LLM_MODELS = ["DeepSeek-R1-Distill-Llama-8B", ]
 
 # 选用的 Embedding 名称, 不能远程吗？
 EMBEDDING_MODEL = "bge-large-zh-v1.5"
@@ -81,7 +80,12 @@ ONLINE_LLM_MODEL = {
     },
 
     # 可扩展其他的模型在线模型
-
+    "deepseek-chat": {
+        "model_name": "deepseek-chat",
+        "api_base_url": "https://api.deepseek.com",
+        "api_key": "sk-aae01ef2678e4200a51c8a3f8b9c9313",
+        "openai_proxy": "",
+    },
 }
 
 SUPPORT_AGENT_MODEL = [
@@ -92,6 +96,7 @@ SUPPORT_AGENT_MODEL = [
     # "chatglm3-6b",
     # "internlm2-chat-20b",
     # "Orion-14B-Chat-Plugin",
+    'deepseek-chat'
 ]
 
 # 搜索引擎匹配结题数量

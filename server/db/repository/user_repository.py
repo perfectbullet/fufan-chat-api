@@ -1,21 +1,18 @@
-from pydantic import BaseModel, Field
-from fastapi import HTTPException, Depends, Body
-from sqlalchemy.exc import IntegrityError
-from server.db.session import get_async_db
-from server.db.models.user_model import UserModel
-from passlib.hash import bcrypt
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import sessionmaker
-from pydantic import BaseModel
 import uuid
-from fastapi import Response
-from fastapi.responses import JSONResponse
-from typing import List
-from sqlalchemy.future import select
-from sqlalchemy.orm import selectinload
-from server.db.session import with_async_session
+
+from fastapi import Depends, Body
 from fastapi import HTTPException
+from fastapi.responses import JSONResponse
+from passlib.hash import bcrypt
+from pydantic import BaseModel
+from pydantic import Field
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.future import select
+
 from server.db.models.user_model import UserModel
+from server.db.session import get_async_db
+from server.db.session import with_async_session
 
 
 class UserRegistrationRequest(BaseModel):
@@ -29,8 +26,8 @@ class UserLoginRequest(BaseModel):
 
 
 async def register_user(
-        request: UserRegistrationRequest = Body(...),
-        session: AsyncSession = Depends(get_async_db)
+request: UserRegistrationRequest = Body(...),
+session: AsyncSession = Depends(get_async_db)
 ):
     """
     用户注册逻辑
@@ -57,14 +54,15 @@ async def register_user(
 
 
 async def login_user(
-        request: UserLoginRequest = Body(...),
-        session: AsyncSession = Depends(get_async_db)
+request: UserLoginRequest = Body(...),
+session: AsyncSession = Depends(get_async_db)
 ):
     # 使用 username 来查询用户
     user = await session.execute(select(UserModel).where(UserModel.username == request.username))
     user = user.scalar_one_or_none()
 
-    if user and bcrypt.verify(request.password, user.password_hash):
+    if user and request.password == user.password_hash:
+        # if user and bcrypt.verify(request.password, user.password_hash):
 
         return JSONResponse(
             status_code=200,
