@@ -1,10 +1,16 @@
 import os
 
 # 更新以下字段为你本地数据库的实际用户名、密码和数据库名
+# username = 'root'
+# hostname = '127.0.0.1'
+# database_name = 'fufanapi'
+# password = "snowball950123"
+
+# 阿里云
 username = 'root'
-hostname = '127.0.0.1'
+hostname = '8.137.52.106'
 database_name = 'fufanapi'
-password = "snowball950123"
+password = "123456"
 
 # 阿里云
 # username = 'root'
