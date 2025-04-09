@@ -102,12 +102,13 @@ class KBService(ABC):
         '''
         return embed_documents(docs=docs, embed_model=self.embed_model, to_query=False)
 
-    async def add_doc(self, kb_file: KnowledgeFile, docs: List[Document] = [], **kwargs):
+    async def add_doc(self, kb_file: KnowledgeFile, docs: List[Document] = None, **kwargs):
         """
         向知识库添加文件
-        如果指定了docs，则不再将文本向量化，并将数据库对应条目标为custom_docs=True
+        如果指定了 docs 则不再将文本向量化，并将数据库对应条目标为 custom_docs=True
         """
-
+        if docs is None:
+            docs = []
         if docs:
             custom_docs = True
             for doc in docs:
@@ -128,7 +129,7 @@ class KBService(ABC):
                         doc.metadata["source"] = str(rel_path.as_posix().strip("/"))
                 except Exception as e:
                     print(f"cannot convert absolute path ({source}) to relative path. error is : {e}")
-           
+
             # self.delete_doc(kb_file)
             doc_infos = await self.do_add_doc(docs, **kwargs)
    
