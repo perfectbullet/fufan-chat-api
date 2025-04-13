@@ -1,3 +1,4 @@
+import asyncio
 import time
 from contextlib import contextmanager
 from typing import List, Dict, Iterator, Literal, Any
@@ -7,11 +8,14 @@ import jwt
 import requests
 import uvicorn
 from fastapi import FastAPI
+from fastapi import FastAPI, Request, BackgroundTasks
+
 from fastchat import conversation as conv
 from fastchat.conversation import Conversation
 from httpx_sse import EventSource
-
+from fastapi.responses import StreamingResponse, JSONResponse
 from server.model_workers.base import *
+
 
 worker_app = FastAPI(title="FastChat Model Worker Service")
 
@@ -43,15 +47,15 @@ def generate_token(apikey: str, exp_seconds: int):
 
 
 class ChatGLMWorker(ApiModelWorker):
-    DEFAULT_EMBED_MODEL = "embedding-2"
+    DEFAULT_EMBED_MODEL = "embedding-3"
 
     def __init__(
     self,
     *,
-    model_names: List[str] = ("zhipu-api",),
+    model_names: List[str] = ("glm-4-apivvvvvvvvvvvvvvvv",),
     controller_addr: str = None,
     worker_addr: str = None,
-    version: Literal["glm-4"] = "glm-4",
+    version: Literal["glm-4"] = "glm-4-plus",
     **kwargs,
     ):
         kwargs.update(model_names=model_names, controller_addr=controller_addr, worker_addr=worker_addr)
@@ -60,7 +64,9 @@ class ChatGLMWorker(ApiModelWorker):
         self.version = version
 
     def do_chat(self, params: ApiChatParams) -> Iterator[Dict]:
+        print('do_chatdo_chatdo_chatdo_chatdo_chatdo_chatdo_chatdo_chatdo_chatdo_chatdo_chatdo_chat')
         params.load_config(self.model_names[0])
+        params.api_key = '53c8378d900c4f31bdbe6d564b33c0f8.Ta4Z1YRszdFJfhL3'
         token = generate_token(params.api_key, 60)
         headers = {
             "Content-Type": "application/json",
@@ -154,6 +160,61 @@ def start_model_worker():
     )
     worker_app.title = f"FastChat LLM Server ZhiPu-API"
     worker_app._worker = worker
+
+    def release_worker_semaphore():
+        worker.semaphore.release()
+
+    def acquire_worker_semaphore():
+        if worker.semaphore is None:
+            worker.semaphore = asyncio.Semaphore(worker.limit_worker_concurrency)
+        return worker.semaphore.acquire()
+
+    def create_background_tasks():
+        background_tasks = BackgroundTasks()
+        background_tasks.add_task(release_worker_semaphore)
+        return background_tasks
+
+    @worker_app.post("/worker_generate_stream")
+    async def api_generate_stream(request: Request):
+        params = await request.json()
+        await acquire_worker_semaphore()
+        generator = worker.generate_stream_gate(params)
+        background_tasks = create_background_tasks()
+        return StreamingResponse(generator, background=background_tasks)
+
+    @worker_app.post("/worker_generate")
+    async def api_generate(request: Request):
+        params = await request.json()
+        await acquire_worker_semaphore()
+        output = await asyncio.to_thread(worker.generate_gate, params)
+        release_worker_semaphore()
+        return JSONResponse(output)
+
+    @worker_app.post("/worker_get_embeddings")
+    async def api_get_embeddings(request: Request):
+        params = await request.json()
+        await acquire_worker_semaphore()
+        embedding = worker.get_embeddings(params)
+        release_worker_semaphore()
+        return JSONResponse(content=embedding)
+
+    @worker_app.post("/worker_get_status")
+    async def api_get_status(request: Request):
+        return worker.get_status()
+
+    @worker_app.post("/count_token")
+    async def api_count_token(request: Request):
+        params = await request.json()
+        return worker.count_token(params)
+
+    @worker_app.post("/worker_get_conv_template")
+    async def api_get_conv(request: Request):
+        return worker.get_conv_template()
+
+    @worker_app.post("/model_details")
+    async def api_model_details(request: Request):
+        return {"context_length": worker.context_len}
+
     uvicorn.run(worker_app, host="localhost", port=21002)
 
 

@@ -2,12 +2,14 @@ import os
 import shutil
 
 from configs import SCORE_THRESHOLD
+from server.embeddings_api import embed_documents, embed_texts
 from server.knowledge_base.kb_service.base import KBService, SupportedVSType, EmbeddingsFunAdapter
 from server.knowledge_base.kb_cache.faiss_cache import kb_faiss_pool, ThreadSafeFaiss
 from server.knowledge_base.utils import KnowledgeFile, get_kb_path, get_vs_path
 from server.utils import torch_gc
 from langchain.docstore.document import Document
 from typing import List, Dict, Optional, Tuple
+from configs import kbs_config, VECTOR_SEARCH_TOP_K, SCORE_THRESHOLD, EMBEDDING_MODEL, KB_INFO
 
 
 class FaissKBService(KBService):
@@ -123,6 +125,8 @@ class FaissKBService(KBService):
         # 获取问题的Embedding
         embeddings = await embed_func.aembed_query(query)
 
+        # embeddings = embed_texts(texts=[query,], embed_model=self.embed_model, to_query=True).data[0]
+
         vector_store = await self.load_vector_store()
 
         with vector_store.acquire() as vs:
@@ -143,8 +147,8 @@ class FaissKBService(KBService):
         返回：
         List[Dict]: 添加的文档信息。
         """
-        data = self._docs_to_embeddings(docs)  # 将向量化单独出来可以减少向量库的锁定时间
-
+        # data = self._docs_to_embeddings(docs)  # 将向量化单独出来可以减少向量库的锁定时间
+        data = embed_documents(docs=docs, embed_model=self.embed_model, to_query=False)
         # 使用 await 来获取异步函数的结果
         vector_store = await self.load_vector_store()
 
@@ -237,19 +241,25 @@ async def main():
         await add_kb_to_db(kb_name="test",
                            kb_info="test",
                            vs_type="faiss",
-                           embed_model="zhipu-embedding",
+                           embed_model="zhipu-api",
                            user_id="admin")
 
     # 调用 add_doc 方法添加一个名为 "README.md" 的文桗，确保使用 await
     await faissService.add_doc(KnowledgeFile("README.md", "test"))
 
-    # 根据输入进行检索
-    search_ans = await faissService.search_docs(query="RAG增强可以使用的框架？")
-    print(search_ans)
+    search_ans = await faissService.do_search(
+        query="向量数据库对比",
+        top_k=VECTOR_SEARCH_TOP_K,
+        score_threshold=1.0
+    )
+    print('search_ans is {}'.format(search_ans))
 
 
 if __name__ == '__main__':
     import asyncio
+    import os
+
+    os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
     # 注意：需要提前在User表中创建一个admin账户
     asyncio.run(main())

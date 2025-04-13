@@ -1,18 +1,13 @@
 import os
 
 # 更新以下字段为你本地数据库的实际用户名、密码和数据库名
-# username = 'root'
-# hostname = '127.0.0.1'
-# database_name = 'fufanapi'
-# password = "snowball950123"
-
-# 阿里云
 username = 'root'
-hostname = '8.137.52.106'
+hostname = '127.0.0.1'
 database_name = 'fufanapi'
-password = "123456"
+password = "snowball950123"
 
-# 阿里云
+
+# 周锋阿里云
 # username = 'root'
 # hostname = '8.137.52.106'
 # database_name = 'fufanapi'
@@ -47,7 +42,7 @@ VECTOR_SEARCH_TOP_K = 3
 
 # 知识库匹配的距离阈值，一般取值范围在0-1之间，SCORE越小，距离越小从而相关度越高。
 # 但有用户报告遇到过匹配分值超过1的情况，为了兼容性默认设为1，在WEBUI中调整范围为0-2
-SCORE_THRESHOLD = 1.0
+SCORE_THRESHOLD = 0.7
 
 # 是否开启中文标题加强，以及标题增强的相关配置
 # 通过增加标题判断，判断哪些文本为标题，并在metadata中进行标记；

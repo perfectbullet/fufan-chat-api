@@ -74,7 +74,7 @@ class ApiChatParams(ApiModelParams):
     '''
     messages: List[Dict[str, str]]
     system_message: Optional[str] = None # for minimax
-    role_meta: Dict = {} # for minimax
+    role_meta: Dict = None # for minimax
 
 
 class ApiCompletionParams(ApiModelParams):

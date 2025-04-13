@@ -5,7 +5,7 @@ from server.utils import BaseResponse, get_model_worker_config, list_embed_model
 from fastapi import Body
 from fastapi.concurrency import run_in_threadpool
 from typing import Dict, List
-
+from zhipuai import ZhipuAI
 online_embed_models = list_online_embed_models()
 
 

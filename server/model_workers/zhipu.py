@@ -35,7 +35,7 @@ def generate_token(apikey: str, exp_seconds: int):
     )
 
 class ChatGLMWorker(ApiModelWorker):
-    DEFAULT_EMBED_MODEL = "embedding-2"
+    DEFAULT_EMBED_MODEL = "embedding-3"
 
     def __init__(
             self,
@@ -152,7 +152,7 @@ class ChatGLMWorker(ApiModelWorker):
 
 if __name__ == "__main__":
     import uvicorn
-    from server.utils import MakeFastAPIOffline
+    # from server.utils import MakeFastAPIOffline
     from fastchat.serve.model_worker import app
 
     worker = ChatGLMWorker(
@@ -160,5 +160,5 @@ if __name__ == "__main__":
         worker_addr="http://127.0.0.1:21001",
     )
     sys.modules["fastchat.serve.model_worker"].worker = worker
-    MakeFastAPIOffline(app)
+    # MakeFastAPIOffline(app)
     uvicorn.run(app, port=21001)

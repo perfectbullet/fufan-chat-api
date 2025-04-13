@@ -33,9 +33,9 @@ FSCHAT_MODEL_WORKERS = {
     # },
 
     # 在线模型只需要配置Model Worker的端口即可
-    # "zhipu-api": {
-    #     "port": 21001,
-    # },
+    "zhipu-api": {
+        "port": 21001,
+    },
     "openai-api": {
         "port": 21001,
     }

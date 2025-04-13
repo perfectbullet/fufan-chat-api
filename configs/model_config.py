@@ -9,13 +9,13 @@ STREAM = True
 
 # 默认启动的模型，如果使用的是glm3-6b，请替换模型名称
 # LLM_MODELS = ["glm4-9b-chat", "zhipu-api"]
-# LLM_MODELS = ["chatglm3-6b", "zhipu-api"]
-LLM_MODELS = ["DeepSeek-R1-Distill-Llama-8B", ]
+LLM_MODELS = ["chatglm3-6b", "zhipu-api"]
+# LLM_MODELS = ["DeepSeek-R1-Distill-Llama-8B", ]
 
 # 选用的 Embedding 名称, 不能远程吗？
 # EMBEDDING_MODEL = "bge-large-zh-v1.5"
 # 使用在线模型
-EMBEDDING_MODEL = 'zhipu-embedding'
+EMBEDDING_MODEL = 'zhipu-api'
 # Embedding 模型运行设备。设为 "auto" 会自动检测(会有警告)，也可手动设定为 "cuda","mps","cpu","xpu" 其中之一。
 EMBEDDING_DEVICE = "auto"
 
@@ -53,6 +53,12 @@ MODEL_PATH = {
         # 可扩展其他的Embedding模型
     },
 
+    "embed_model": {
+        "bge-large-zh-v1.5": "/media/zj/data2-ext4/BAAI/bge-large-zh-v1.5/BAAI/bge-large-zh-v1.5",
+        # "m3e-base": "/home/00_rag/model/m3e-base",
+        # 可扩展其他的Embedding模型
+    },
+
     "reranker": {
         "bge-reranker-large": "/media/zj/data2-ext4/BAAI/bge-reranker-large/BAAI/bge-reranker-large",
     }
@@ -61,17 +67,17 @@ MODEL_PATH = {
 ONLINE_LLM_MODEL = {
 
     # 智谱清言的在线API服务
-    # "zhipu-api": {
-    #     "api_key": "6a612bff6b8e98fd70fb2ca5b91ce6d8.7wrgKDRAnlNw63x8",
-    #     "version": "glm-4",
-    #     "provider": "ChatGLMWorker",
-    # },
+    "zhipu-api": {
+        "api_key": "53c8378d900c4f31bdbe6d564b33c0f8.Ta4Z1YRszdFJfhL3",
+        "version": "glm-4",
+        "provider": "ChatGLMWorker",
+    },
 
     # 智谱清言的在线API服务
-    "zhipu-embedding": {
-        "api_key": "53c8378d900c4f31bdbe6d564b33c0f8.Ta4Z1YRszdFJfhL3",
-        "version": "embedding-3",
-    },
+    # "zhipu-embedding": {
+    #     "api_key": "53c8378d900c4f31bdbe6d564b33c0f8.Ta4Z1YRszdFJfhL3",
+    #     "version": "embedding-3",
+    # },
 
     # OpenAI GPT模型的在线服务
     # "openai-api": {

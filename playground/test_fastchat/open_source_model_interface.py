@@ -6,9 +6,9 @@ from langchain.prompts import ChatPromptTemplate
 
 def get_ChatOpenAI() -> ChatOpenAI:
     model = ChatOpenAI(
-        openai_api_key="EMPTY",
+        openai_api_key="53c8378d900c4f31bdbe6d564b33c0f8.Ta4Z1YRszdFJfhL3",
         openai_api_base="http://localhost:8000/v1/",
-        model_name="chatglm3-6b",
+        model_name="glm-4-apivvvvvvvvvvvvvvvv",
     )
     return model
 

@@ -244,7 +244,7 @@ class EmbeddingsPool(CachePool):
                         embeddings.query_instruction = ""
                 else:
                     from langchain.embeddings import HuggingFaceBgeEmbeddings
-                    embeddings = HuggingFaceEmbeddings(model_name=get_model_path(model),
+                    embeddings = HuggingFaceBgeEmbeddings(model_name=get_model_path(model),
                                                        model_kwargs={'device': device})
                 item.obj = embeddings
                 item.finish_loading()

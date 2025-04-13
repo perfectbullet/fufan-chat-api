@@ -93,7 +93,7 @@ class _FaissPool(CachePool):
         """
         embeddings = EmbeddingsFunAdapter(embed_model)
         doc = Document(page_content="init", metadata={})
-        vector_store = FAISS.from_documents([doc], embeddings, distance_strategy="METRIC_INNER_PRODUCT")
+        vector_store = FAISS.from_documents([doc], embeddings)
         ids = list(vector_store.docstore._dict.keys())
         vector_store.delete(ids)
         return vector_store
@@ -172,7 +172,7 @@ class KBFaissPool(_FaissPool):
 
                     # https://api.python.langchain.com/en/latest/_modules/langchain_community/vectorstores/faiss.html#FAISS
                     # load_local 方法会检查本地是否存在指定的文件，如果存在，它会将这些文件加载到内存中，并返回一个加载好的 FAISS 实例
-                    vector_store = FAISS.load_local(vs_path, embeddings, distance_strategy="METRIC_INNER_PRODUCT", allow_dangerous_deserialization=True)
+                    vector_store = FAISS.load_local(vs_path, embeddings, allow_dangerous_deserialization=True)
                 elif create:
                     # create an empty vector store
                     if not os.path.exists(vs_path):

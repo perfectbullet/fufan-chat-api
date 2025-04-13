@@ -107,18 +107,14 @@ class KBService(ABC):
         向知识库添加文件
         如果指定了 docs 则不再将文本向量化，并将数据库对应条目标为 custom_docs=True
         """
-        if docs is None:
-            docs = []
-        if docs:
+        if docs is not None and len(docs) > 0:
             custom_docs = True
             for doc in docs:
                 doc.metadata.setdefault("source", kb_file.filename)
         else:
-
             # 执行 文档加载  -- > 文档切分两个过程。
             docs = kb_file.file2text()
             custom_docs = False
-
         if docs:
             # 将 metadata["source"] 由绝对路径改为相对路径
             for doc in docs:
@@ -132,7 +128,7 @@ class KBService(ABC):
 
             # self.delete_doc(kb_file)
             doc_infos = await self.do_add_doc(docs, **kwargs)
-   
+            print('docs is {}'.format(docs))
             status = await add_file_to_db(kb_file,
                                     custom_docs=custom_docs,
                                     docs_count=len(docs),
@@ -478,11 +474,13 @@ class EmbeddingsFunAdapter(Embeddings):
         return normalized_query_embed[0].tolist()  # 将结果转换为一维数组并返回
 
     async def aembed_documents(self, texts: List[str]) -> List[List[float]]:
-        embeddings = (await aembed_texts(texts=texts, embed_model=self.embed_model, to_query=False)).data
+        embedded_texts = await aembed_texts(texts=texts, embed_model=self.embed_model, to_query=True)
+        embeddings = embedded_texts.data
         return normalize(embeddings).tolist()
 
     async def aembed_query(self, text: str) -> List[float]:
-        embeddings = (await aembed_texts(texts=[text], embed_model=self.embed_model, to_query=True)).data
+        aembeddings = await aembed_texts(texts=[text], embed_model=self.embed_model, to_query=True)
+        embeddings = aembeddings.data
         query_embed = embeddings[0]
         query_embed_2d = np.reshape(query_embed, (1, -1))  # 将一维数组转换为二维数组
         normalized_query_embed = normalize(query_embed_2d)
