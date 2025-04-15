@@ -250,7 +250,7 @@ if __name__ == '__main__':
     os.makedirs(temp_dir)
 
     # 使用wikiextractor从维基百科转储中提取文本，输出为JSON格式，过滤消歧义页面
-    subprocess.run(['python', '-m',
+    subprocess.run([r'D:/python_workspace/zj_venv/fufan-chat-api/Scripts/python.exe', '-m',
                     'wikiextractor.WikiExtractor',
                     '--json', '--filter_disambig_pages', '--quiet',
                     '-o', temp_dir,

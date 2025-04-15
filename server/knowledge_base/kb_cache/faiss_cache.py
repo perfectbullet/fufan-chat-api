@@ -1,5 +1,6 @@
 from configs import CACHED_VS_NUM, CACHED_MEMO_VS_NUM
 from server.knowledge_base.kb_cache.base import *
+from server.knowledge_base.kb_cache.base import ThreadSafeObject
 from server.knowledge_base.kb_service.base import EmbeddingsFunAdapter
 from server.utils import load_local_embeddings
 from server.knowledge_base.utils import get_vs_path
@@ -135,7 +136,7 @@ class KBFaissPool(_FaissPool):
             create: bool = True,
             embed_model: str = EMBEDDING_MODEL,
             embed_device: str = embedding_device(),
-    ) -> ThreadSafeFaiss:
+    ) -> ThreadSafeObject:
         """
           加载或创建知识库的 FAISS 向量存储。
 
