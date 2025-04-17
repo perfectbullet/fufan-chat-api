@@ -1,17 +1,16 @@
 import argparse
-from tqdm import tqdm
-import re
 import html
-import spacy
-import os
 import json
-import subprocess
-from pathlib import Path
+import os
+import re
 import shutil
+import subprocess
 from concurrent.futures import ThreadPoolExecutor
 from multiprocessing import Pool
-import os
-import json
+from pathlib import Path
+
+import spacy
+from tqdm import tqdm
 
 
 def load_corpus(dir_path):

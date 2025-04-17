@@ -13,6 +13,7 @@ Created on 2024-05-30 14:04
 # Union 是 Python 的 typing 模块中的一个类型提示工具，用于指示变量可以是多种类型之一
 from typing import Union
 from fastapi import FastAPI
+from starlette.responses import RedirectResponse
 
 app = FastAPI()
 
@@ -41,5 +42,5 @@ if __name__ == '__main__':
     # 第二种启动方式：
     # pip install uvicorn
     import uvicorn
-    uvicorn.run(app, host='192.168.110.131', port=8000)
+    uvicorn.run(app, host='127.0.0.1', port=8000)
     
