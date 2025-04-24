@@ -7,15 +7,13 @@ import httpx
 import jwt
 import requests
 import uvicorn
-from fastapi import FastAPI
 from fastapi import FastAPI, Request, BackgroundTasks
-
+from fastapi.responses import StreamingResponse, JSONResponse
 from fastchat import conversation as conv
 from fastchat.conversation import Conversation
 from httpx_sse import EventSource
-from fastapi.responses import StreamingResponse, JSONResponse
-from server.model_workers.base import *
 
+from server.model_workers.base import *
 
 worker_app = FastAPI(title="FastChat Model Worker Service")
 
@@ -52,7 +50,7 @@ class ChatGLMWorker(ApiModelWorker):
     def __init__(
     self,
     *,
-    model_names: List[str] = ("glm-4-apivvvvvvvvvvvvvvvv",),
+    model_names: List[str] = ("glm-4",),
     controller_addr: str = None,
     worker_addr: str = None,
     version: Literal["glm-4"] = "glm-4-plus",
@@ -64,7 +62,7 @@ class ChatGLMWorker(ApiModelWorker):
         self.version = version
 
     def do_chat(self, params: ApiChatParams) -> Iterator[Dict]:
-        print('do_chatdo_chatdo_chatdo_chatdo_chatdo_chatdo_chatdo_chatdo_chatdo_chatdo_chatdo_chat')
+        print('glm-4 do_chat glm-4 do_chat glm-4 do_chat ')
         params.load_config(self.model_names[0])
         params.api_key = '53c8378d900c4f31bdbe6d564b33c0f8.Ta4Z1YRszdFJfhL3'
         token = generate_token(params.api_key, 60)

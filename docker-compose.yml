@@ -39,5 +39,25 @@ services:  #  定义要使用的容器镜像的部署单元。
 #      - NVIDIA_VISIBLE_DEVICES=all
 #      - MYSQL_HOST=mysql    # 使用服务名作为 host，Docker 内部 DNS 解析
 #      - MYSQL_PORT=3306
+
+#  embedding-server:
+#    image: vllm/vllm-openai:latest
+#    container_name: vllm-embedding
+#    ports:
+#      - "8000:8000"
+#    volumes:
+#      - ./bge-small-zh-v1.5/BAAI/bge-small-zh-v1___5:/models/bge-small-zh-v1.5
+#    command: --model /models/bge-small-zh-v1.5
+#      --tensor-parallel-size 1
+#      --max-model-len 512
+#      --served-model-name bge-embedding
+#      --swap-space 1
+#    deploy:
+#      resources:
+#        reservations:
+#          devices:
+#            - capabilities: [gpu]
+#    restart: unless-stopped
+
 volumes:
   mysql_data:
