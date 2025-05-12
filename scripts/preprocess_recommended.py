@@ -109,19 +109,24 @@ def generate_csv_for_pdfs(root_dir):
     csv_file_path = os.path.join(root_dir, 'course_metadata.csv')
     df.to_csv(csv_file_path, index=False)
     print(f"CSV file generated: {csv_file_path}")
+    return csv_file_path
 
 
 def generate_summary(text):
     """
     用于生成摘要的函数
     """
-    response = client.chat.completions.create(
-        model="glm-4",  # 填写需要调用的模型名称
-        messages=[
-            {"role": "user", "content": "作为一名语言学专家，请根据如下的输入文本:\n{} \n生成一段摘要".format(text)}]
-    )
+    print('{}\n{}\n{}'.format('*'*100, text, '*'*100))
+    try:
+        response = client.chat.completions.create(
+            model="glm-4",  # 填写需要调用的模型名称
+            messages=[
+                {"role": "user", "content": "作为一名语言学专家，请根据如下的输入文本:\n{} \n生成一段摘要".format(text)}]
+        )
 
-    return response.choices[0].message.content
+        return response.choices[0].message.content
+    except Exception as e:
+        return str(e)
 
 
 # 假设这是你用于生成 Tags 的函数
@@ -137,21 +142,22 @@ def generate_tags(prompt):
 
 if __name__ == '__main__':
     # 基于原始PDF文档，生成格式化的.csv文件
-    root_directory = "/home/00_rag/fufan-chat-api/scripts/course_data"
+    root_directory = "course_data"
 
     # 生成课程的metadata，存储为.csv格式
-    generate_csv_for_pdfs(root_directory)
+    # csv_file_path = generate_csv_for_pdfs(root_directory)
 
     # 利用大模型做推荐系统数据的特征工程
-    from zhipuai import ZhipuAI
+    # from zhipuai import ZhipuAI
     # 这里的API Key需要替换成自己的，当然，也可以采用其他在线模型或者本地部署的开源模型
-    client = ZhipuAI(api_key='cdb940ef70b0a194c92f91c88da3b21e.Thck467xWlxl7703')
+    # client = ZhipuAI(api_key='53c8378d900c4f31bdbe6d564b33c0f8.Ta4Z1YRszdFJfhL3')
 
     # 加载 CSV 文件
-    df = pd.read_csv("/home/00_rag/fufan-chat-api/scripts/course_data/course_metadata.csv")
+    csv_file_path = os.path.join(root_directory, 'final_course.csv')
+    df = pd.read_csv(csv_file_path)
 
     # 遍历 DataFrame，生成摘要
-    df['Abstract'] = df['Content'].apply(generate_summary)
+    # df['Abstract'] = df['Content'].apply(generate_summary)
 
     # 检查并填充空的 Tags
     for index, row in df.iterrows():
@@ -164,4 +170,4 @@ if __name__ == '__main__':
                 df.at[index, 'Tags'] = generated_tags
 
     # 保存更新后的 DataFrame 到新的 CSV 文件
-    df.to_csv("/home/00_rag/fufan-chat-api/scripts/course_data/final_course.csv", index=False)
+    df.to_csv("./course_data/final_course.csv", index=False)
